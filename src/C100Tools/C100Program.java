@@ -6,16 +6,11 @@
 
 package C100Tools;
 
-import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
@@ -38,18 +33,18 @@ public class C100Program {
 
     public C100Program(String entireProgram) {
         this.entireProgram = entireProgram;
-        extractParts(entireProgram);
+        extractParts();
     }
 
-    private void extractParts(String entireProgram) {
-        programRev[0] = getProgramPart(entireProgram, REV1HEADER);
-        programRev[1] = getProgramPart(entireProgram, REV2HEADER);
-        programRev[2] = getProgramPart(entireProgram, REV3HEADER);
-        toolListProgram = getProgramPart(entireProgram, TOOLLISTPROGHEADER);
+    private void extractParts() {
+        programRev[0] = getProgramPart( REV1HEADER);
+        programRev[1] = getProgramPart( REV2HEADER);
+        programRev[2] = getProgramPart( REV3HEADER);
+        toolListProgram = getProgramPart( TOOLLISTPROGHEADER);
         printOut(programRev[2]);
     }
 
-    private String[] getProgramPart(String entireProgram, String header) {
+    private String[] getProgramPart( String header) {
         String regexp = "^" + header + "(.*?M30)";
         Pattern p = Pattern.compile(regexp, Pattern.MULTILINE + Pattern.DOTALL);
         Matcher m = p.matcher(entireProgram);
@@ -102,6 +97,7 @@ public class C100Program {
                 encoded = Files.readAllBytes(Paths.get(fileName));
                 Charset cs = Charset.forName("ISO_8859_1");
                 entireProgram = cs.decode(ByteBuffer.wrap(encoded)).toString();
+                extractParts();
             } catch (IOException ex) {
                 Logger.getLogger(C100ToolsMainWindow.class.getName()).log(Level.SEVERE, null, ex);
             }

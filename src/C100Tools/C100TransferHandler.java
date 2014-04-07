@@ -25,7 +25,7 @@ import javax.swing.TransferHandler;
  */
 public class C100TransferHandler extends TransferHandler {
 
-    public void setDmuProgram(C100Program c100Program) {
+    public void setC100Program(C100Program c100Program) {
         this.c100Program = c100Program;
     }
     
