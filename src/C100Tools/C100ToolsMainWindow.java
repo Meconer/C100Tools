@@ -12,9 +12,12 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 
 /**
@@ -23,6 +26,9 @@ import javax.swing.JFileChooser;
  */
 public class C100ToolsMainWindow extends javax.swing.JFrame {
 
+    private C100Program c100p;
+
+    
     /**
      * Creates new form C100ToolsMainWindow
      */
@@ -44,9 +50,15 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
 
         jScrollPane1 = new javax.swing.JScrollPane();
         jTAProgramArea = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jLstToolsUsed = new javax.swing.JList();
+        jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,6 +66,14 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jTAProgramArea.setRows(5);
         jTAProgramArea.setDragEnabled(true);
         jScrollPane1.setViewportView(jTAProgramArea);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel1.setText("Arcfil");
+
+        jScrollPane2.setViewportView(jLstToolsUsed);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setText("Använda verktyg");
 
         jMenu1.setText("Arkiv");
 
@@ -67,23 +87,44 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setText("Verktyg");
+
+        jMenuItem2.setText("Analysera Arc");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu2);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(612, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 488, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 595, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)))
         );
 
         pack();
@@ -92,6 +133,10 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         readArcFile();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        analyseArcFile();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -130,10 +175,16 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JList jLstToolsUsed;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTAProgramArea;
     // End of variables declaration//GEN-END:variables
 
@@ -147,12 +198,9 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
                 encoded = Files.readAllBytes(Paths.get(fileName));
                 Charset cs = Charset.forName("ISO_8859_1");
                 String arcFileAsString = cs.decode(ByteBuffer.wrap(encoded)).toString();
-                C100Program c100p = new C100Program(arcFileAsString);
-                Set<Integer> toolList = c100p.getToolsUsed(0);
-                Iterator<Integer> iter = toolList.iterator();
-                while (iter.hasNext()) {
-                jTAProgramArea.append("T" + iter.next() + "\n");
-            }
+                c100p = new C100Program(arcFileAsString);
+                jTAProgramArea.setText(arcFileAsString);
+            
             } catch (IOException ex) {
                 Logger.getLogger(C100ToolsMainWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -168,6 +216,21 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
             return null;
         }
            
+    }
+
+    private void analyseArcFile() {
+        DefaultListModel<String> listModel = new DefaultListModel();
+        List<String> toolList;
+        for (int revolverNo = 1; revolverNo <= 3; revolverNo++) {
+            listModel.addElement("Revolver " + revolverNo );
+            toolList = c100p.getToolsUsed( revolverNo - 1 );
+            Iterator<String> i = toolList.iterator();
+            while (i.hasNext()) {
+                listModel.addElement(i.next());
+            }
+        }
+        jLstToolsUsed.setModel(listModel);
+        
     }
 
 }

@@ -6,17 +6,33 @@
 
 package C100Tools;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  *
  * @author mats
  */
 public class Tool {
 
+    protected int turretNo;
+    protected int stationNo;
+    Set<Integer> dNos = new HashSet<>();
+    protected String qValue;
+    protected String lValue;
+    protected String hValue;
+    protected String rValue;
+    protected int slValue;
+    protected String q_ofs;
+    protected String l_ofs;
+    protected String h_ofs;
+    protected String r_ofs;
+
     public Tool(String id, int turretNo, int stationNo, int dNo, String qValue, String lValue, String hValue, String rValue, int slValue) {
         this.id = id;
         this.turretNo = turretNo;
         this.stationNo = stationNo;
-        this.dNo = dNo;
+        this.dNos.add(dNo);
         this.qValue = qValue;
         this.lValue = lValue;
         this.hValue = hValue;
@@ -55,12 +71,12 @@ public class Tool {
         this.stationNo = stationNo;
     }
 
-    public int getdNo() {
-        return dNo;
+    public Set<Integer> getdNo() {
+        return dNos;
     }
 
-    public void setdNo(int dNo) {
-        this.dNo = dNo;
+    public void addNo(int dNo) {
+        dNos.add(dNo);
     }
 
     public String getqValue() {
@@ -134,17 +150,5 @@ public class Tool {
     public void setR_ofs(String r_ofs) {
         this.r_ofs = r_ofs;
     }
-    protected int turretNo;
-    protected int stationNo;
-    protected int dNo;
-    protected String qValue;
-    protected String lValue;
-    protected String hValue;
-    protected String rValue;
-    protected int slValue;
-    protected String q_ofs;
-    protected String l_ofs;
-    protected String h_ofs;
-    protected String r_ofs;
     
 }
