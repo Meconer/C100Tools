@@ -13,8 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -219,6 +217,9 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     }
 
     private void analyseArcFile() {
+        if ( c100p != null ) {
+            c100p.analyseProgram();
+        }
         DefaultListModel<String> listModel = new DefaultListModel();
         List<String> toolList;
         for (int revolverNo = 1; revolverNo <= 3; revolverNo++) {

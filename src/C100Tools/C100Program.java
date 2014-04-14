@@ -13,8 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -32,10 +30,16 @@ public class C100Program {
     private String[][] programRev = new String[3][];
     private String[] toolListProgram;
     String entireProgram;
+    private ArrayList<String>[] toolList = new ArrayList[3];
+    private ToolCollection usedTools;
+    
 
     public C100Program(String entireProgram) {
         this.entireProgram = entireProgram;
         extractParts();
+        for ( int i = 0 ; i < 3 ; i++ ) 
+            toolList[i] = new ArrayList<>();
+        usedTools = new ToolCollection();
     }
 
     private void extractParts() {
@@ -43,7 +47,6 @@ public class C100Program {
         programRev[1] = getProgramPart( REV2HEADER);
         programRev[2] = getProgramPart( REV3HEADER);
         toolListProgram = getProgramPart( TOOLLISTPROGHEADER);
-        printOut(programRev[2]);
     }
 
     private String[] getProgramPart( String header) {
@@ -66,8 +69,7 @@ public class C100Program {
         }
     }
     
-    public List<String> getToolsUsed(int revolverNo) {
-        usedTools = new ToolCollection();
+    public ArrayList<String> getToolsUsed(int revolverNo) {
         String[] program = programRev[revolverNo];
 
         int currentToolNo = 0;
@@ -96,11 +98,9 @@ public class C100Program {
             }
             
         }
-        List<String> toolList = usedTools.getToolList();
+        ArrayList<String> toolList = usedTools.getToolList();
         return toolList;
     }
-    private ToolCollection usedTools;
-    
     public void readFile(String fileName){
         
         if ( fileName != null ) {
@@ -115,6 +115,12 @@ public class C100Program {
                 Logger.getLogger(C100ToolsMainWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    void analyseProgram() {
+        for ( int i = 0 ; i < 3 ; i++ )
+            toolList[i] = getToolsUsed(i);
+        
     }
 
      

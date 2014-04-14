@@ -8,7 +8,6 @@ package C100Tools;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  *
@@ -20,6 +19,7 @@ public class ToolCollection {
     void addTool(int toolNo, int dNo, int turretNo ) {
         if ( !toolExist( toolNo, dNo, turretNo ) ) {
             Tool tool = new Tool( "Rev" + turretNo + "T" + toolNo + "D" + dNo, turretNo, toolNo);
+            tool.dNos.add(dNo);
             collection.add(tool);
         }
             
@@ -40,8 +40,8 @@ public class ToolCollection {
         return false;
     }
 
-    public List<String> getToolList() {
-        List<String> toolList = new ArrayList<>();
+    public ArrayList<String> getToolList() {
+        ArrayList<String> toolList = new ArrayList<>();
         Iterator<Tool> toolIterator = collection.iterator();
         while ( toolIterator.hasNext() ) {
             Tool tool = toolIterator.next();
