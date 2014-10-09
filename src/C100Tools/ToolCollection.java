@@ -50,4 +50,19 @@ public class ToolCollection {
         }
         return toolList;
     }
+
+    ArrayList<String> getToolList(int revolverNo) {
+        ArrayList<String> toolList = new ArrayList<>();
+        Iterator<Tool> toolIterator = collection.iterator();
+        while ( toolIterator.hasNext() ) {
+            Tool tool = toolIterator.next();
+            for ( int dNo : tool.getdNo() ) {
+                if ( revolverNo == tool.getTurretNo() ) {
+                    toolList.add("T" + tool.getStationNo() + " D" + dNo );
+                }
+            }
+        }
+        return toolList;
+        
+    }
 }

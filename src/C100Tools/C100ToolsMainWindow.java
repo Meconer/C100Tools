@@ -31,8 +31,11 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
      * Creates new form C100ToolsMainWindow
      */
     public C100ToolsMainWindow() {
-        C100TransferHandler c100TransferHandler = new C100TransferHandler();
         initComponents();
+        C100TransferHandler c100TransferHandler = new C100TransferHandler();
+        c100p = new C100Program("");
+        c100TransferHandler.setC100Program(c100p);
+        c100p.setTextArea(jTAProgramArea);
         jTAProgramArea.setDragEnabled(true);
         jTAProgramArea.setTransferHandler( c100TransferHandler );
     }
@@ -104,7 +107,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 488, Short.MAX_VALUE)
+                .addGap(0, 622, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -120,9 +123,9 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 597, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)))
         );
 
         pack();

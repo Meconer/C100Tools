@@ -12,11 +12,11 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -32,14 +32,13 @@ public class C100Program {
     String entireProgram;
     private ArrayList<String>[] toolList = new ArrayList[3];
     private ToolCollection usedTools;
-    
+    private JTextArea jTAProgramArea;
 
     public C100Program(String entireProgram) {
         this.entireProgram = entireProgram;
         extractParts();
         for ( int i = 0 ; i < 3 ; i++ ) 
             toolList[i] = new ArrayList<>();
-        usedTools = new ToolCollection();
     }
 
     private void extractParts() {
@@ -70,37 +69,46 @@ public class C100Program {
     }
     
     public ArrayList<String> getToolsUsed(int revolverNo) {
-        String[] program = programRev[revolverNo];
-
-        int currentToolNo = 0;
-        String toolRegexp = ".*(T\\d+).*";
-        String dNoRegexp = ".*(D\\d+).*";
-        Pattern toolPattern = Pattern.compile(toolRegexp);
-        Pattern dNoPattern = Pattern.compile(dNoRegexp);
-        for (String line : program ) {
-            line = line.replaceAll(";.*", "");
-            line = line.replaceAll("\\(.*?\\)", "");
-            line = line.toUpperCase();
-            Matcher m = toolPattern.matcher(line);
-            if (m.matches()) {
-                String toolString = m.group(1);
-                int toolNo = Integer.parseInt(toolString.substring(1));
-                currentToolNo = toolNo;
-            }
-            m = dNoPattern.matcher(line);
-            if ( m.matches() ) {
-                String dString = m.group(1);
-                int dNo = Integer.parseInt( dString.substring(1) );
-                if ( currentToolNo != 0 ) {
-                    usedTools.addTool( currentToolNo, dNo, revolverNo );
-                    
-                }
-            }
-            
-        }
-        ArrayList<String> toolList = usedTools.getToolList();
-        return toolList;
+        buildUsedToolCollection();
+        ArrayList<String> retToolList = usedTools.getToolList(revolverNo);
+        return retToolList;
     }
+
+    private void buildUsedToolCollection() throws NumberFormatException {
+        usedTools = new ToolCollection();
+        for (int revNo = 0; revNo < 3 ; revNo++) {
+            String[] program = programRev[revNo];
+
+            int currentToolNo = 0;
+            String toolRegexp = ".*(T\\d+).*";
+            String dNoRegexp = ".*(D\\d+).*";
+            Pattern toolPattern = Pattern.compile(toolRegexp);
+            Pattern dNoPattern = Pattern.compile(dNoRegexp);
+            for (String line : program ) {
+                line = line.replaceAll(";.*", "");
+                line = line.replaceAll("\\(.*?\\)", "");
+                line = line.toUpperCase();
+                Matcher m = toolPattern.matcher(line);
+                if (m.matches()) {
+                    String toolString = m.group(1);
+                    int toolNo = Integer.parseInt(toolString.substring(1));
+                    currentToolNo = toolNo;
+                }
+                m = dNoPattern.matcher(line);
+                if ( m.matches() ) {
+                    String dString = m.group(1);
+                    int dNo = Integer.parseInt( dString.substring(1) );
+                    if ( currentToolNo != 0 ) {
+                        usedTools.addTool( currentToolNo, dNo, revNo );
+
+                    }
+                }
+
+            }
+        }
+    }
+    
+    
     public void readFile(String fileName){
         
         if ( fileName != null ) {
@@ -110,6 +118,7 @@ public class C100Program {
                 encoded = Files.readAllBytes(Paths.get(fileName));
                 Charset cs = Charset.forName("ISO_8859_1");
                 entireProgram = cs.decode(ByteBuffer.wrap(encoded)).toString();
+                jTAProgramArea.setText(entireProgram);
                 extractParts();
             } catch (IOException ex) {
                 Logger.getLogger(C100ToolsMainWindow.class.getName()).log(Level.SEVERE, null, ex);
@@ -118,9 +127,14 @@ public class C100Program {
     }
 
     void analyseProgram() {
+        buildUsedToolCollection();
         for ( int i = 0 ; i < 3 ; i++ )
             toolList[i] = getToolsUsed(i);
         
+    }
+
+    void setTextArea(JTextArea jTAProgramArea) {
+        this.jTAProgramArea = jTAProgramArea;
     }
 
      

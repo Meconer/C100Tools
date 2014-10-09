@@ -57,7 +57,8 @@ public class C100TransferHandler extends TransferHandler {
             Logger.getLogger(C100TransferHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
         if ( fileList != null ) {
-            if (fileList.size() > 0 ) c100Program.readFile(  fileList.get(0).getAbsolutePath()  );
+            if (c100Program == null) System.out.println("c100program = null");
+            if (fileList.size() > 0 )  c100Program.readFile(  fileList.get(0).getAbsolutePath()  );
         }
         return true;
     }
