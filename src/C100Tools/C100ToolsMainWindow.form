@@ -4,40 +4,43 @@
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="jMenu1">
+        <Menu class="javax.swing.JMenu" name="jMenuArkiv">
           <Properties>
             <Property name="text" type="java.lang.String" value="Arkiv"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem1">
+            <MenuItem class="javax.swing.JMenuItem" name="jMIReadArcFile">
               <Properties>
                 <Property name="text" type="java.lang.String" value="&#xd6;ppna C100 Arc-fil"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem1ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReadArcFileActionPerformed"/>
               </Events>
             </MenuItem>
           </SubComponents>
         </Menu>
-        <Menu class="javax.swing.JMenu" name="jMenu2">
+        <Menu class="javax.swing.JMenu" name="jMenuTools">
           <Properties>
             <Property name="text" type="java.lang.String" value="Verktyg"/>
           </Properties>
           <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem2">
+            <MenuItem class="javax.swing.JMenuItem" name="jMIBuildTreeFromMainProgram">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Bygg verktygstr&#xe4;d fr&#xe5;n programmet"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem2ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIBuildTreeFromMainProgramActionPerformed"/>
               </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem3">
+            <MenuItem class="javax.swing.JMenuItem" name="jMIBuildTreeFromToolProgram">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Bygg verktygstr&#xe4;d fr&#xe5;n gamla verktygsdata"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIBuildTreeFromToolProgramActionPerformed"/>
+              </Events>
             </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="jMenuItem4">
+            <MenuItem class="javax.swing.JMenuItem" name="jMIBuildTreeFromMeasuredTools">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Bygg verktygstr&#xe4;d fr&#xe5;n inm&#xe4;tta verktyg"/>
               </Properties>

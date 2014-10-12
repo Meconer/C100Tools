@@ -14,9 +14,6 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeNode;
 
 /**
  *
@@ -59,12 +56,12 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jSPC100Tree = new javax.swing.JScrollPane();
         jTreeC100 = new javax.swing.JTree();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuArkiv = new javax.swing.JMenu();
+        jMIReadArcFile = new javax.swing.JMenuItem();
+        jMenuTools = new javax.swing.JMenu();
+        jMIBuildTreeFromMainProgram = new javax.swing.JMenuItem();
+        jMIBuildTreeFromToolProgram = new javax.swing.JMenuItem();
+        jMIBuildTreeFromMeasuredTools = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("C100Tools");
@@ -165,35 +162,40 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jTreeC100.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         jSPC100Tree.setViewportView(jTreeC100);
 
-        jMenu1.setText("Arkiv");
+        jMenuArkiv.setText("Arkiv");
 
-        jMenuItem1.setText("Öppna C100 Arc-fil");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        jMIReadArcFile.setText("Öppna C100 Arc-fil");
+        jMIReadArcFile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                jMIReadArcFileActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenuArkiv.add(jMIReadArcFile);
 
-        jMenuBar1.add(jMenu1);
+        jMenuBar1.add(jMenuArkiv);
 
-        jMenu2.setText("Verktyg");
+        jMenuTools.setText("Verktyg");
 
-        jMenuItem2.setText("Bygg verktygsträd från programmet");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jMIBuildTreeFromMainProgram.setText("Bygg verktygsträd från programmet");
+        jMIBuildTreeFromMainProgram.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                jMIBuildTreeFromMainProgramActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem2);
+        jMenuTools.add(jMIBuildTreeFromMainProgram);
 
-        jMenuItem3.setText("Bygg verktygsträd från gamla verktygsdata");
-        jMenu2.add(jMenuItem3);
+        jMIBuildTreeFromToolProgram.setText("Bygg verktygsträd från gamla verktygsdata");
+        jMIBuildTreeFromToolProgram.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIBuildTreeFromToolProgramActionPerformed(evt);
+            }
+        });
+        jMenuTools.add(jMIBuildTreeFromToolProgram);
 
-        jMenuItem4.setText("Bygg verktygsträd från inmätta verktyg");
-        jMenu2.add(jMenuItem4);
+        jMIBuildTreeFromMeasuredTools.setText("Bygg verktygsträd från inmätta verktyg");
+        jMenuTools.add(jMIBuildTreeFromMeasuredTools);
 
-        jMenuBar1.add(jMenu2);
+        jMenuBar1.add(jMenuTools);
 
         setJMenuBar(jMenuBar1);
 
@@ -237,13 +239,17 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void jMIReadArcFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIReadArcFileActionPerformed
         readArcFile();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_jMIReadArcFileActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void jMIBuildTreeFromMainProgramActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIBuildTreeFromMainProgramActionPerformed
         analyseArcFile();
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_jMIBuildTreeFromMainProgramActionPerformed
+
+    private void jMIBuildTreeFromToolProgramActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIBuildTreeFromToolProgramActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMIBuildTreeFromToolProgramActionPerformed
 
     /**
      * @param args the command line arguments
@@ -284,13 +290,13 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuItem jMIBuildTreeFromMainProgram;
+    private javax.swing.JMenuItem jMIBuildTreeFromMeasuredTools;
+    private javax.swing.JMenuItem jMIBuildTreeFromToolProgram;
+    private javax.swing.JMenuItem jMIReadArcFile;
+    private javax.swing.JMenu jMenuArkiv;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenu jMenuTools;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jSPC100Tree;
     private javax.swing.JScrollPane jScrollPane1;
@@ -332,16 +338,9 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
 
     private void analyseArcFile() {
         if ( c100p != null ) {
-            c100p.analyseProgram();
+            c100p.analyseMainProgram();
         }
-        jTreeC100 = c100p.buildC100ToolTree();
-        for (int i = 0; i < jTreeC100.getRowCount(); i++) {
-            jTreeC100.expandRow(i);
-        }
-        jSPC100Tree.setViewportView(jTreeC100);
-        DefaultTreeModel treeModel = (DefaultTreeModel) jTreeC100.getModel();
-        DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeModel.getRoot();
-        treeModel.nodeChanged( root );
+        c100p.buildC100ToolTree(jSPC100Tree);
     }
 
 

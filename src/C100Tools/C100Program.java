@@ -17,11 +17,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
 
 /**
  *
@@ -33,7 +32,7 @@ public class C100Program {
     private final static String REV3HEADER = "%_N_3_0_MPF";
     private final static String TOOLLISTPROGHEADER = "%_N_1_3_MPF";
     private String[][] programRev = new String[3][];
-    private String[] toolListProgram;
+    private String toolListProgram;
     String entireProgram;
     private ArrayList<String>[] toolList = new ArrayList[3];
     private ToolCollection usedTools;
@@ -50,7 +49,7 @@ public class C100Program {
         programRev[0] = getProgramPart( REV1HEADER);
         programRev[1] = getProgramPart( REV2HEADER);
         programRev[2] = getProgramPart( REV3HEADER);
-        toolListProgram = getProgramPart( TOOLLISTPROGHEADER);
+        toolListProgram = getProgramPartAsString(TOOLLISTPROGHEADER);
     }
 
     private String[] getProgramPart( String header) {
@@ -64,7 +63,18 @@ public class C100Program {
         } else {
             return null;
         }
-        
+    }
+
+    private String getProgramPartAsString( String header) {
+        String regexp = "^" + header + "(.*?M30)";
+        Pattern p = Pattern.compile(regexp, Pattern.MULTILINE + Pattern.DOTALL);
+        Matcher m = p.matcher(entireProgram);
+        if (m.find()) {
+            String thisProgram = m.group(1);
+            return thisProgram;
+        } else {
+            return null;
+        }
     }
 
     private void printOut(String[] program ) {
@@ -78,7 +88,29 @@ public class C100Program {
         return retToolList;
     }
 
-    private void buildUsedToolCollection() throws NumberFormatException {
+    private void buildUsedToolCollectionFromToolListProgram() throws NumberFormatException {
+        // Create a new empty tool collection
+        usedTools = new ToolCollection();
+
+        for (int turretNo = 1 ; turretNo <= Tool.MAX_TURRET_NUMBER ; turretNo++ ) {
+            // Find MAG=X where X is turret number
+            String magRegexp = "MAG=" + turretNo + "(.*";
+            
+            if ( turretNo == Tool.MAX_TURRET_NUMBER ) {
+                magRegexp += "M30)";
+            } else {
+                magRegexp += ")MAG=" + (turretNo + 1) ;
+            }
+            Pattern magPattern = Pattern.compile(magRegexp,Pattern.MULTILINE + Pattern.DOTALL);
+            Matcher m = magPattern.matcher(toolListProgram);
+            if (m.find()) {
+                String thisTurretProgram = m.group();
+                System.out.println(thisTurretProgram);
+            }
+        }
+    }
+    
+    private void buildUsedToolCollectionFromMainProgram() throws NumberFormatException {
         
         // Create a new empty tool collection
         usedTools = new ToolCollection();
@@ -161,16 +193,15 @@ public class C100Program {
         }
     }
 
-    void analyseProgram() {
-        buildUsedToolCollection();
-        
+    void analyseMainProgram() {
+        buildUsedToolCollectionFromMainProgram();
     }
 
     void setTextArea(JTextArea jTAProgramArea) {
         this.jTAProgramArea = jTAProgramArea;
     }
 
-    public JTree buildC100ToolTree() {
+    public void buildC100ToolTree(JScrollPane jSPC100TreePane) {
         
         DefaultMutableTreeNode root = new DefaultMutableTreeNode("C100");
       
@@ -178,18 +209,23 @@ public class C100Program {
             DefaultMutableTreeNode turretTree = new DefaultMutableTreeNode("Revolver " + turretNo);
             root.add(turretTree);
             for ( int placeNo = 1 ; placeNo <= Tool.MAX_PLACE_NUMBER ; placeNo++ ) {
-                DefaultMutableTreeNode placeNode = new DefaultMutableTreeNode("Plats " + placeNo );
-                turretTree.add(placeNode);
                 ArrayList<Tool> toolListByPlace = usedTools.getToolsByPlace(turretNo, placeNo);
-                Iterator<Tool> toolIterator = toolListByPlace.iterator();
-                while (toolIterator.hasNext() ) {
-                    DefaultMutableTreeNode tool = new DefaultMutableTreeNode( toolIterator.next() );
-                    placeNode.add(tool);
+                if ( !toolListByPlace.isEmpty() ) {
+                    DefaultMutableTreeNode placeNode = new DefaultMutableTreeNode("Plats " + placeNo );
+                    turretTree.add(placeNode);
+                    Iterator<Tool> toolIterator = toolListByPlace.iterator();
+                    while (toolIterator.hasNext() ) {
+                        DefaultMutableTreeNode tool = new DefaultMutableTreeNode( toolIterator.next() );
+                        placeNode.add(tool);
+                    }
                 }
             }
         }
         JTree jTreeC100 = new JTree(root);
+        jSPC100TreePane.setViewportView(jTreeC100);
+        for (int i = 0; i < jTreeC100.getRowCount(); i++) {
+            jTreeC100.expandRow(i);
+        }
 
-        return jTreeC100;
     }
 }
