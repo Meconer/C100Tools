@@ -15,24 +15,29 @@ import java.util.Set;
  */
 public class Tool {
 
-    protected int turretNo;
-    protected int stationNo;
-    Set<Integer> dNos = new HashSet<>();
-    protected String qValue;
+    static final public int MAX_TURRET_NUMBER = 3;
+    static final public int MAX_PLACE_NUMBER = 10;
+    
+    protected int turretNo;     // Turret number. 1 to MAX_TURRET_NUMBER
+    protected int placeNo;      // Place number. 1 to MAX_PLACE_NUMBER
+    protected int stationNo;    // Station number. 1,2,3... up to number of different dNo:s for this place
+
+    protected int dNo;          // Offset number.
+    protected String qValue;    // Geometry values for the tool.
     protected String lValue;
     protected String hValue;
     protected String rValue;
-    protected int slValue;
-    protected String q_ofs;
+    protected int slValue;      // Cut location or tool type.
+    protected String q_ofs;     // Wear values for geometry.
     protected String l_ofs;
     protected String h_ofs;
     protected String r_ofs;
 
-    public Tool(String id, int turretNo, int stationNo, int dNo, String qValue, String lValue, String hValue, String rValue, int slValue) {
+    public Tool(String id, int turretNo, int placeNo, int dNo, String qValue, String lValue, String hValue, String rValue, int slValue) {
         this.id = id;
         this.turretNo = turretNo;
-        this.stationNo = stationNo;
-        this.dNos.add(dNo);
+        this.placeNo = placeNo;
+        this.dNo = dNo;
         this.qValue = qValue;
         this.lValue = lValue;
         this.hValue = hValue;
@@ -40,10 +45,12 @@ public class Tool {
         this.slValue = slValue;
     }
 
-    public Tool(String id, int turretNo, int stationNo) {
+    public Tool(String id, int turretNo, int placeNo, int stationNo, int dNo ) {
         this.id = id;
         this.turretNo = turretNo;
+        this.placeNo = placeNo;
         this.stationNo = stationNo;
+        this.dNo = dNo;
     }
     protected String id;
 
@@ -63,6 +70,14 @@ public class Tool {
         this.turretNo = turretNo;
     }
 
+    public int getPlaceNo() {
+        return placeNo;
+    }
+
+    public void setPlaceNo(int placeNo) {
+        this.placeNo = placeNo;
+    }
+
     public int getStationNo() {
         return stationNo;
     }
@@ -71,12 +86,12 @@ public class Tool {
         this.stationNo = stationNo;
     }
 
-    public Set<Integer> getdNo() {
-        return dNos;
+    public int getdNo() {
+        return dNo;
     }
 
-    public void addNo(int dNo) {
-        dNos.add(dNo);
+    public void setdNo(int dNo) {
+        this.dNo = dNo;
     }
 
     public String getqValue() {
@@ -149,6 +164,14 @@ public class Tool {
 
     public void setR_ofs(String r_ofs) {
         this.r_ofs = r_ofs;
+    }
+    
+    @Override
+    public String toString() {
+        return id + "\n" +
+               "Rev=" + turretNo + "\n" +
+               "T=" + placeNo + " D=" + dNo + " SN=" + stationNo;
+                
     }
     
 }

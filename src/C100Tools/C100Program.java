@@ -12,11 +12,13 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JTextArea;
+import javax.swing.JTree;
 
 /**
  *
@@ -69,42 +71,72 @@ public class C100Program {
     }
     
     public ArrayList<String> getToolsUsed(int revolverNo) {
-        buildUsedToolCollection();
         ArrayList<String> retToolList = usedTools.getToolList(revolverNo);
         return retToolList;
     }
 
     private void buildUsedToolCollection() throws NumberFormatException {
+        
+        // Create a new empty tool collection
         usedTools = new ToolCollection();
-        for (int revNo = 0; revNo < 3 ; revNo++) {
-            String[] program = programRev[revNo];
+        
+        // Go through the program for each turret (channel)
+        for (int turretNo = 1; turretNo <= Tool.MAX_TURRET_NUMBER ; turretNo++) {
+            String[] program = programRev[turretNo-1];
 
             int currentToolNo = 0;
+            String currentToolId = "";
+            
             String toolRegexp = ".*(T\\d+).*";
             String dNoRegexp = ".*(D\\d+).*";
+            String toolIdRegexp = ".*T\\d+.*D\\d+.*;(.*)";
             Pattern toolPattern = Pattern.compile(toolRegexp);
             Pattern dNoPattern = Pattern.compile(dNoRegexp);
+            Pattern toolIdPattern = Pattern.compile(toolIdRegexp);
+            
+            // Check each line
             for (String line : program ) {
+                
+                // First check if this is a line of the form T# D# ... ; Tool Id
+                // If it is, then extract the tool id.
+                Matcher m = toolIdPattern.matcher(line);
+                if (m.matches()) {
+                    currentToolId = m.group(1);
+                }
+                
+                // Now remove all comments
                 line = line.replaceAll(";.*", "");
+                // and also remove everything in parenthesis
                 line = line.replaceAll("\\(.*?\\)", "");
+                // make it in uppercase
                 line = line.toUpperCase();
-                Matcher m = toolPattern.matcher(line);
+                
+                // Check if the line has a T number. If so, set the current tool number
+                m = toolPattern.matcher(line);
                 if (m.matches()) {
                     String toolString = m.group(1);
                     int toolNo = Integer.parseInt(toolString.substring(1));
                     currentToolNo = toolNo;
                 }
+                
+                // now check if the line has a D number. If so, add the current tool
                 m = dNoPattern.matcher(line);
                 if ( m.matches() ) {
                     String dString = m.group(1);
                     int dNo = Integer.parseInt( dString.substring(1) );
                     if ( currentToolNo != 0 ) {
-                        usedTools.addTool( currentToolNo, dNo, revNo );
-
+                        usedTools.addTool( currentToolId, turretNo, currentToolNo, dNo );
+                        
+                        // Reset the tool id string so the next tool doesn't get the same id.
+                        currentToolId ="";
                     }
                 }
-
             }
+            
+            // If the same tool place has more than one d number then we should calculate a
+            // new station number for each dNo that tool place has.
+            usedTools.calculateStationNumbers();
+            usedTools.toolPrint();
         }
     }
     
@@ -128,13 +160,21 @@ public class C100Program {
 
     void analyseProgram() {
         buildUsedToolCollection();
-        for ( int i = 0 ; i < 3 ; i++ )
-            toolList[i] = getToolsUsed(i);
         
     }
 
     void setTextArea(JTextArea jTAProgramArea) {
         this.jTAProgramArea = jTAProgramArea;
+    }
+
+    void buildC100ToolTree(JTree jTreeC100, ToolCollection toolCollection) {
+        for ( int turretNo = 1 ; turretNo <=3 ; turretNo++ ) {
+            ArrayList<String> toolListTurret = toolCollection.getToolList( turretNo );
+            Iterator<String> toolIterator = toolListTurret.iterator();
+            while (toolIterator.hasNext() ) {
+                String toolString = toolIterator.next();
+            }
+        }
     }
 
      
