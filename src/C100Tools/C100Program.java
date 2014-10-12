@@ -19,6 +19,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 
 /**
  *
@@ -124,7 +127,7 @@ public class C100Program {
                 if ( m.matches() ) {
                     String dString = m.group(1);
                     int dNo = Integer.parseInt( dString.substring(1) );
-                    if ( currentToolNo != 0 ) {
+                    if ( ( currentToolNo != 0 ) && ( dNo != 0 ) ) {
                         usedTools.addTool( currentToolId, turretNo, currentToolNo, dNo );
                         
                         // Reset the tool id string so the next tool doesn't get the same id.
@@ -167,16 +170,26 @@ public class C100Program {
         this.jTAProgramArea = jTAProgramArea;
     }
 
-    void buildC100ToolTree(JTree jTreeC100, ToolCollection toolCollection) {
-        for ( int turretNo = 1 ; turretNo <=3 ; turretNo++ ) {
-            ArrayList<String> toolListTurret = toolCollection.getToolList( turretNo );
-            Iterator<String> toolIterator = toolListTurret.iterator();
-            while (toolIterator.hasNext() ) {
-                String toolString = toolIterator.next();
+    public JTree buildC100ToolTree() {
+        
+        DefaultMutableTreeNode root = new DefaultMutableTreeNode("C100");
+      
+        for ( int turretNo = 1 ; turretNo <= Tool.MAX_TURRET_NUMBER ; turretNo++ ) {
+            DefaultMutableTreeNode turretTree = new DefaultMutableTreeNode("Revolver " + turretNo);
+            root.add(turretTree);
+            for ( int placeNo = 1 ; placeNo <= Tool.MAX_PLACE_NUMBER ; placeNo++ ) {
+                DefaultMutableTreeNode placeNode = new DefaultMutableTreeNode("Plats " + placeNo );
+                turretTree.add(placeNode);
+                ArrayList<Tool> toolListByPlace = usedTools.getToolsByPlace(turretNo, placeNo);
+                Iterator<Tool> toolIterator = toolListByPlace.iterator();
+                while (toolIterator.hasNext() ) {
+                    DefaultMutableTreeNode tool = new DefaultMutableTreeNode( toolIterator.next() );
+                    placeNode.add(tool);
+                }
             }
         }
-    }
+        JTree jTreeC100 = new JTree(root);
 
-     
-    
+        return jTreeC100;
+    }
 }

@@ -6,9 +6,6 @@
 
 package C100Tools;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  *
  * @author mats
@@ -168,8 +165,8 @@ public class Tool {
     
     @Override
     public String toString() {
-        return id + "\n" +
-               "Rev=" + turretNo + "\n" +
+        return id + " \n" +
+               "Rev=" + turretNo + " \n" +
                "T=" + placeNo + " D=" + dNo + " SN=" + stationNo;
                 
     }

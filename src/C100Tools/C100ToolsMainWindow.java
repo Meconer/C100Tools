@@ -11,12 +11,12 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeNode;
 
 /**
  *
@@ -25,7 +25,6 @@ import javax.swing.JFileChooser;
 public class C100ToolsMainWindow extends javax.swing.JFrame {
 
     private C100Program c100p;
-    private ToolCollection toolCollection;
     
     
     /**
@@ -57,7 +56,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jScrollPane4 = new javax.swing.JScrollPane();
+        jSPC100Tree = new javax.swing.JScrollPane();
         jTreeC100 = new javax.swing.JTree();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -164,7 +163,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         jTreeC100.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
-        jScrollPane4.setViewportView(jTreeC100);
+        jSPC100Tree.setViewportView(jTreeC100);
 
         jMenu1.setText("Arkiv");
 
@@ -209,7 +208,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jSPC100Tree, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -230,7 +229,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                    .addComponent(jSPC100Tree, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
                     .addComponent(jScrollPane3))
                 .addContainerGap(190, Short.MAX_VALUE))
         );
@@ -293,9 +292,9 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jSPC100Tree;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTextArea jTAProgramArea;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTree jTreeC100;
@@ -335,7 +334,14 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         if ( c100p != null ) {
             c100p.analyseProgram();
         }
-        
+        jTreeC100 = c100p.buildC100ToolTree();
+        for (int i = 0; i < jTreeC100.getRowCount(); i++) {
+            jTreeC100.expandRow(i);
+        }
+        jSPC100Tree.setViewportView(jTreeC100);
+        DefaultTreeModel treeModel = (DefaultTreeModel) jTreeC100.getModel();
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode) treeModel.getRoot();
+        treeModel.nodeChanged( root );
     }
 
 
