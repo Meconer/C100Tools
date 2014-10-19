@@ -22,9 +22,12 @@ public class ToolCollection {
             Tool tool = new Tool( id, turretNo, placeNo, 1, dNo);
             collection.add(tool);
         }
-            
     }
 
+    public void addTool( Tool tool ) {
+        if ( !toolExist(tool.getdNo())) collection.add(tool);
+    }
+    
     public boolean toolExist(int dNo) {
         Iterator<Tool> toolIterator = collection.iterator();
         while ( toolIterator.hasNext() ) {
@@ -116,4 +119,5 @@ public class ToolCollection {
             }
         }
     }
+
 }

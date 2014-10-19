@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -88,26 +89,160 @@ public class C100Program {
         return retToolList;
     }
 
-    private void buildUsedToolCollectionFromToolListProgram() throws NumberFormatException {
-        // Create a new empty tool collection
-        usedTools = new ToolCollection();
-
-        for (int turretNo = 1 ; turretNo <= Tool.MAX_TURRET_NUMBER ; turretNo++ ) {
-            // Find MAG=X where X is turret number
-            String magRegexp = "MAG=" + turretNo + "(.*";
-            
-            if ( turretNo == Tool.MAX_TURRET_NUMBER ) {
-                magRegexp += "M30)";
-            } else {
-                magRegexp += ")MAG=" + (turretNo + 1) ;
-            }
-            Pattern magPattern = Pattern.compile(magRegexp,Pattern.MULTILINE + Pattern.DOTALL);
-            Matcher m = magPattern.matcher(toolListProgram);
-            if (m.find()) {
-                String thisTurretProgram = m.group();
-                System.out.println(thisTurretProgram);
+    private void storeTool(Tool tool, ToolCollection toolCollection ) {
+        if ( tool != null ) {
+            if ( toolCollection != null ) {
+                toolCollection.addTool(tool);
             }
         }
+    }
+
+    
+    public class FormatException extends Exception {
+        public FormatException( String message ){
+            super( message );
+        }
+    }
+    
+    private void buildUsedToolCollectionFromToolListProgram() {
+        // Create a new empty tool collection
+        usedTools = new ToolCollection();
+        
+        Scanner scanner = new Scanner(toolListProgram);
+
+        int turretNo = 0;
+        int stationNo = -Integer.MAX_VALUE;
+        String id = "";
+        int placeNo = 0;
+        
+        Tool tool = null ;
+        boolean toolIsStarted = false;
+
+        
+        while (scanner.hasNext()) {
+            String s = scanner.next();
+            
+            
+            try {
+                if ( s.startsWith(";") ) { 
+                    // A comment. Skip to next line.
+                    scanner.nextLine();
+                } else {
+                    
+                    if ( s.matches( "MAG=\\d+" ) ) {
+                        // Set turretNo
+                        turretNo = Integer.parseInt( s.split("=")[1] );
+                    }
+                    if ( s.matches( "PL=\\d+" ) ) {
+                        // Read placeNo, id and type
+                        placeNo = Integer.parseInt( s.split( "=" )[1] );
+
+                        // We have id and type no in the rest of the line. Read it. 
+                        s = scanner.nextLine().trim();
+                        int pos;
+                        if ( s.startsWith( "ID=") ) {
+                            pos = s.indexOf( "\"" );
+                            s = s.substring( pos + 1 );
+                            pos= s.indexOf( "\"" );
+                            id = s.substring( 0, pos );
+                            System.out.println(id);
+                        } else throw new FormatException("Felaktigt format i verktygsfilen");
+
+                        // Now look for the type.
+                        int type = 0;
+                        try {
+                            s = s.substring( pos + 1 ).trim();
+                            if ( s.startsWith( "TYP=") ) s = s.substring(4);
+                            type = Integer.parseInt(s);
+                        } catch ( NumberFormatException E ) {
+                            type = 0;
+                        }
+                        
+                        System.out.println( tool );
+                        toolIsStarted = true;
+                    }
+                    
+                    if ( s.matches( "SN=\\d+" ) ) {
+                        stationNo = Integer.parseInt( s.split( "=" )[1] );
+                        storeTool( tool, usedTools );
+                        toolIsStarted = true;
+                        tool = new Tool(id, turretNo, placeNo, stationNo, 0 );
+                    }
+                    
+                }
+            } catch ( FormatException e ){
+                System.out.println("FEL: " + e.getMessage() );
+            }
+        }
+
+
+//        for (int turretNo = 1 ; turretNo <= Tool.MAX_TURRET_NUMBER ; turretNo++ ) {
+//            // Find MAG=X where X is turret number
+//            String magRegexp = "MAG=" + turretNo + "(.*";
+//            
+//            if ( turretNo == Tool.MAX_TURRET_NUMBER ) {
+//                magRegexp += "M30)";
+//            } else {
+//                magRegexp += ")MAG=" + (turretNo + 1) ;
+//            }
+//            Pattern magPattern = Pattern.compile(magRegexp,Pattern.MULTILINE + Pattern.DOTALL );
+//            Matcher m = magPattern.matcher(toolListProgram);
+//            if (m.find()) {
+//                String thisTurretProgram = m.group(1);
+//                addToolsFromToolListProgram( turretNo, usedTools, thisTurretProgram );
+//            }
+//        }
+    }
+
+    private void addToolsFromToolListProgram(int turretNo, ToolCollection usedTools, String thisTurretProgram) {
+        for ( int placeNo = 1 ; placeNo <= 10 ; placeNo++ ) {
+            String placeRegexp = "(PL=" + placeNo + ".*)";
+            if ( placeNo < 10 ) placeRegexp += "(PL=" + (placeNo + 1) + ")";
+            else placeRegexp += "^ *$";
+            
+            Pattern placePattern = Pattern.compile( placeRegexp, Pattern.DOTALL + Pattern.MULTILINE );
+            Matcher m = placePattern.matcher(thisTurretProgram);
+            if ( m.find() ) {
+                String thisPlacePart = m.group(1);
+                Tool newTool = getToolFromPlacePart( thisPlacePart, turretNo, placeNo );
+                if ( newTool != null ) System.out.println("Found tool " + newTool );
+            }
+        }
+    }
+    
+    private Tool getToolFromPlacePart(String thisPlacePart, int turretNo, int placeNo ) {
+        String toolId = getIdFromPlacePart( thisPlacePart );
+        
+        if ( ! toolId.equals("") ) {
+            String regexSN = "(SN=\\d+)(.*?)(SN=)|(PL=)|(^ *$)";
+            Pattern snPattern = Pattern.compile( regexSN, Pattern.DOTALL + Pattern.MULTILINE );
+            Matcher m = snPattern.matcher(thisPlacePart);
+            while ( m.find() ) {
+                System.out.println("Regex match " + m.group() );
+            }
+            //return newTool;
+        } 
+        return null;
+    }
+
+    private int getIntValueFromPlacePart( String placePart, String nameToLookFor ) {
+        String regexp = nameToLookFor + "(\\d+)";
+        Pattern p = Pattern.compile( regexp );
+        Matcher m = p.matcher( placePart );
+        if ( m.find() ) {
+            String s = m.group(1);
+            int num = Integer.parseInt(s);
+            return num;
+        }
+        else return -Integer.MAX_VALUE;
+    }
+    
+    private String getIdFromPlacePart( String placePart ) {
+        String regexp = "ID=\"(.+)\"";
+        Pattern p = Pattern.compile( regexp );
+        Matcher m = p.matcher(placePart );
+        if ( m.find() ) return m.group(1);
+        else return "";
     }
     
     private void buildUsedToolCollectionFromMainProgram() throws NumberFormatException {
@@ -228,4 +363,9 @@ public class C100Program {
         }
 
     }
+
+    void analyseToolListProgram() {
+        buildUsedToolCollectionFromToolListProgram();
+    }
+
 }

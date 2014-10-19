@@ -248,7 +248,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIBuildTreeFromMainProgramActionPerformed
 
     private void jMIBuildTreeFromToolProgramActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIBuildTreeFromToolProgramActionPerformed
-        // TODO add your handling code here:
+        analyseToolProgramInArcFile();
     }//GEN-LAST:event_jMIBuildTreeFromToolProgramActionPerformed
 
     /**
@@ -339,8 +339,15 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private void analyseArcFile() {
         if ( c100p != null ) {
             c100p.analyseMainProgram();
+            c100p.buildC100ToolTree(jSPC100Tree);
         }
-        c100p.buildC100ToolTree(jSPC100Tree);
+    }
+
+    private void analyseToolProgramInArcFile() {
+        if ( c100p != null ) {
+            c100p.analyseToolListProgram();
+            c100p.buildC100ToolTree(jSPC100Tree);
+    }
     }
 
 

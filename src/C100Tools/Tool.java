@@ -30,6 +30,11 @@ public class Tool {
     protected String h_ofs;
     protected String r_ofs;
 
+    
+    public Tool() {
+        
+    }
+    
     public Tool(String id, int turretNo, int placeNo, int dNo, String qValue, String lValue, String hValue, String rValue, int slValue) {
         this.id = id;
         this.turretNo = turretNo;
