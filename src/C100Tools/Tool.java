@@ -24,7 +24,8 @@ public class Tool {
     protected String lValue;
     protected String hValue;
     protected String rValue;
-    protected int slValue;      // Cut location or tool type.
+    protected int slValue;      // Cut location
+    protected int toolType;
     protected String q_ofs;     // Wear values for geometry.
     protected String l_ofs;
     protected String h_ofs;
@@ -78,6 +79,14 @@ public class Tool {
 
     public void setPlaceNo(int placeNo) {
         this.placeNo = placeNo;
+    }
+
+    public int getType() {
+        return toolType;
+    }
+
+    public void setType(int type) {
+        this.toolType = type;
     }
 
     public int getStationNo() {

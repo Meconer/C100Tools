@@ -25,7 +25,7 @@ public class ToolCollection {
     }
 
     public void addTool( Tool tool ) {
-        if ( !toolExist(tool.getdNo())) collection.add(tool);
+        collection.add(tool);
     }
     
     public boolean toolExist(int dNo) {

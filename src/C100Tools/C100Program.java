@@ -114,6 +114,8 @@ public class C100Program {
         int stationNo = -Integer.MAX_VALUE;
         String id = "";
         int placeNo = 0;
+        int dNo = 0;
+        int toolType = 0;
         
         Tool tool = null ;
         boolean toolIsStarted = false;
@@ -133,11 +135,11 @@ public class C100Program {
                         // Set turretNo
                         turretNo = Integer.parseInt( s.split("=")[1] );
                     }
-                    if ( s.matches( "PL=\\d+" ) ) {
-                        // Read placeNo, id and type
+                    if ( s.matches( "^PL=\\d+" ) ) {
+                        // Read placeNo, id and toolType
                         placeNo = Integer.parseInt( s.split( "=" )[1] );
 
-                        // We have id and type no in the rest of the line. Read it. 
+                        // We have id and toolType no in the rest of the line. Read it. 
                         s = scanner.nextLine().trim();
                         int pos;
                         if ( s.startsWith( "ID=") ) {
@@ -148,25 +150,86 @@ public class C100Program {
                             System.out.println(id);
                         } else throw new FormatException("Felaktigt format i verktygsfilen");
 
-                        // Now look for the type.
-                        int type = 0;
+                        // Now look for the toolType.
                         try {
                             s = s.substring( pos + 1 ).trim();
                             if ( s.startsWith( "TYP=") ) s = s.substring(4);
-                            type = Integer.parseInt(s);
+                            toolType = Integer.parseInt(s);
                         } catch ( NumberFormatException E ) {
-                            type = 0;
+                            toolType = 0;
                         }
                         
                         System.out.println( tool );
                         toolIsStarted = true;
                     }
-                    
-                    if ( s.matches( "SN=\\d+" ) ) {
+
+                    // Station no
+                    if ( s.matches( "^SN=\\d+" ) ) {
                         stationNo = Integer.parseInt( s.split( "=" )[1] );
                         storeTool( tool, usedTools );
                         toolIsStarted = true;
                         tool = new Tool(id, turretNo, placeNo, stationNo, 0 );
+                        tool.setType(toolType);
+                    }
+                    
+                    // D no
+                    if ( s.matches( "^D=\\d+" ) ) {
+                        dNo = Integer.parseInt( s.split( "=" )[1] );
+                        if ( tool != null ) tool.setdNo(dNo);
+                    }
+                    
+                    // Q value
+                    if ( s.matches( "^Q=\\d+" ) ) {
+                        String value =  s.split( "=" )[1];
+                        if ( tool != null ) tool.setqValue( value );
+                    }
+                    
+                    // L value
+                    if ( s.matches( "^L=" ) ) {
+                        String value =  s.split( "=" )[1];
+                        if ( tool != null ) tool.setlValue( value );
+                    }
+                    
+                    // H value
+                    if ( s.matches( "^H=" ) ) {
+                        String value =  s.split( "=" )[1];
+                        if ( tool != null ) tool.sethValue( value );
+                    }
+                    
+                    // R value
+                    if ( s.matches( "^R=" ) ) {
+                        String value =  s.split( "=" )[1];
+                        if ( tool != null ) tool.setrValue( value );
+                    }
+                    
+                    // SL value
+                    if ( s.matches( "^SL=" ) ) {
+                        int value =  Integer.parseInt( s.split( "=" )[1] );
+                        if ( tool != null ) tool.setSlValue( value );
+                    }
+                    
+                    // V_Q value
+                    if ( s.matches( "^V_Q=" ) ) {
+                        String value =  s.split( "=" )[1];
+                        if ( tool != null ) tool.setQ_ofs( value );
+                    }
+                    
+                    // V_L value
+                    if ( s.matches( "^V_L=" ) ) {
+                        String value =  s.split( "=" )[1];
+                        if ( tool != null ) tool.setL_ofs( value );
+                    }
+                    
+                    // V_H value
+                    if ( s.matches( "^V_H=" ) ) {
+                        String value =  s.split( "=" )[1];
+                        if ( tool != null ) tool.setH_ofs( value );
+                    }
+                    
+                    // V_R value
+                    if ( s.matches( "^V_R=" ) ) {
+                        String value =  s.split( "=" )[1];
+                        if ( tool != null ) tool.setR_ofs( value );
                     }
                     
                 }
