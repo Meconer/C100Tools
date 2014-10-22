@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  *
@@ -55,6 +56,9 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jTextArea1 = new javax.swing.JTextArea();
         jSPC100Tree = new javax.swing.JScrollPane();
         jTreeC100 = new javax.swing.JTree();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuArkiv = new javax.swing.JMenu();
         jMIReadArcFile = new javax.swing.JMenuItem();
@@ -160,7 +164,39 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         jTreeC100.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jTreeC100.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
+            public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
+                jTreeC100ValueChanged(evt);
+            }
+        });
         jSPC100Tree.setViewportView(jTreeC100);
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel4.setText("Verktygsträd");
+
+        jButton1.setText("Ändra verktyg");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1)
+                .addContainerGap(139, Short.MAX_VALUE))
+        );
 
         jMenuArkiv.setText("Arkiv");
 
@@ -203,22 +239,29 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jSPC100Tree, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(360, 360, 360)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jSPC100Tree, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel3))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGap(28, 28, 28))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -226,14 +269,17 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane1)
                     .addComponent(jSPC100Tree, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
                     .addComponent(jScrollPane3))
-                .addContainerGap(190, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -250,6 +296,19 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private void jMIBuildTreeFromToolProgramActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIBuildTreeFromToolProgramActionPerformed
         analyseToolProgramInArcFile();
     }//GEN-LAST:event_jMIBuildTreeFromToolProgramActionPerformed
+
+    private void jTreeC100ValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTreeC100ValueChanged
+        System.out.println("Got here");
+        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTreeC100.getLastSelectedPathComponent();
+        if ( selectedNode != null ) {
+            Object nodeInfo = selectedNode.getUserObject();
+            System.out.println("Node :" + nodeInfo );
+        }
+    }//GEN-LAST:event_jTreeC100ValueChanged
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        changeSelectedTool();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -288,8 +347,10 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuItem jMIBuildTreeFromMainProgram;
     private javax.swing.JMenuItem jMIBuildTreeFromMeasuredTools;
     private javax.swing.JMenuItem jMIBuildTreeFromToolProgram;
@@ -297,6 +358,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuArkiv;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuTools;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jSPC100Tree;
     private javax.swing.JScrollPane jScrollPane1;
@@ -339,15 +401,28 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private void analyseArcFile() {
         if ( c100p != null ) {
             c100p.analyseMainProgram();
-            c100p.buildC100ToolTree(jSPC100Tree);
+            c100p.buildC100ToolTree(jSPC100Tree, jTreeC100);
         }
     }
 
     private void analyseToolProgramInArcFile() {
         if ( c100p != null ) {
             c100p.analyseToolListProgram();
-            c100p.buildC100ToolTree(jSPC100Tree);
+            c100p.buildC100ToolTree(jSPC100Tree, jTreeC100);
+            
+        }
     }
+
+    private void changeSelectedTool() {
+        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTreeC100.getLastSelectedPathComponent();
+        if ( selectedNode != null ) {
+            if (selectedNode.isLeaf() ) {
+                Tool tool = ( Tool ) selectedNode.getUserObject();
+                ChangeToolDialog changeToolDialog = new ChangeToolDialog( this, true );
+                changeToolDialog.setTool( tool );
+                changeToolDialog.setVisible( true );
+            }
+        }
     }
 
 

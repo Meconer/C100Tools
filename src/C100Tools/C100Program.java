@@ -22,6 +22,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
 
 /**
  *
@@ -35,15 +37,12 @@ public class C100Program {
     private String[][] programRev = new String[3][];
     private String toolListProgram;
     String entireProgram;
-    private ArrayList<String>[] toolList = new ArrayList[3];
     private ToolCollection usedTools;
     private JTextArea jTAProgramArea;
 
     public C100Program(String entireProgram) {
         this.entireProgram = entireProgram;
         extractParts();
-        for ( int i = 0 ; i < 3 ; i++ ) 
-            toolList[i] = new ArrayList<>();
     }
 
     private void extractParts() {
@@ -239,22 +238,6 @@ public class C100Program {
         }
 
 
-//        for (int turretNo = 1 ; turretNo <= Tool.MAX_TURRET_NUMBER ; turretNo++ ) {
-//            // Find MAG=X where X is turret number
-//            String magRegexp = "MAG=" + turretNo + "(.*";
-//            
-//            if ( turretNo == Tool.MAX_TURRET_NUMBER ) {
-//                magRegexp += "M30)";
-//            } else {
-//                magRegexp += ")MAG=" + (turretNo + 1) ;
-//            }
-//            Pattern magPattern = Pattern.compile(magRegexp,Pattern.MULTILINE + Pattern.DOTALL );
-//            Matcher m = magPattern.matcher(toolListProgram);
-//            if (m.find()) {
-//                String thisTurretProgram = m.group(1);
-//                addToolsFromToolListProgram( turretNo, usedTools, thisTurretProgram );
-//            }
-//        }
     }
 
     private void addToolsFromToolListProgram(int turretNo, ToolCollection usedTools, String thisTurretProgram) {
@@ -421,6 +404,36 @@ public class C100Program {
         }
         JTree jTreeC100 = new JTree(root);
         jSPC100TreePane.setViewportView(jTreeC100);
+        for (int i = 0; i < jTreeC100.getRowCount(); i++) {
+            jTreeC100.expandRow(i);
+        }
+    }
+
+    public void buildC100ToolTree(JScrollPane jSPC100TreePane, JTree jTreeC100 ) {
+        
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode) jTreeC100.getModel().getRoot();
+        root.removeAllChildren();
+      
+        for ( int turretNo = 1 ; turretNo <= Tool.MAX_TURRET_NUMBER ; turretNo++ ) {
+            DefaultMutableTreeNode turretTree = new DefaultMutableTreeNode("Revolver " + turretNo);
+            root.add(turretTree);
+            for ( int placeNo = 1 ; placeNo <= Tool.MAX_PLACE_NUMBER ; placeNo++ ) {
+                ArrayList<Tool> toolListByPlace = usedTools.getToolsByPlace(turretNo, placeNo);
+                if ( !toolListByPlace.isEmpty() ) {
+                    DefaultMutableTreeNode placeNode = new DefaultMutableTreeNode("Plats " + placeNo );
+                    turretTree.add(placeNode);
+                    Iterator<Tool> toolIterator = toolListByPlace.iterator();
+                    while (toolIterator.hasNext() ) {
+                        DefaultMutableTreeNode tool = new DefaultMutableTreeNode( toolIterator.next() );
+                        placeNode.add(tool);
+                    }
+                }
+            }
+        }
+
+        DefaultTreeModel model = (DefaultTreeModel) jTreeC100.getModel();
+        model.reload();
+        
         for (int i = 0; i < jTreeC100.getRowCount(); i++) {
             jTreeC100.expandRow(i);
         }
