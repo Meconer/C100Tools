@@ -235,22 +235,6 @@ public class C100Program {
 
     }
 
-    private void addToolsFromToolListProgram(int turretNo, ToolCollection usedTools, String thisTurretProgram) {
-        for ( int placeNo = 1 ; placeNo <= 10 ; placeNo++ ) {
-            String placeRegexp = "(PL=" + placeNo + ".*)";
-            if ( placeNo < 10 ) placeRegexp += "(PL=" + (placeNo + 1) + ")";
-            else placeRegexp += "^ *$";
-            
-            Pattern placePattern = Pattern.compile( placeRegexp, Pattern.DOTALL + Pattern.MULTILINE );
-            Matcher m = placePattern.matcher(thisTurretProgram);
-            if ( m.find() ) {
-                String thisPlacePart = m.group(1);
-                Tool newTool = getToolFromPlacePart( thisPlacePart, turretNo, placeNo );
-                if ( newTool != null ) System.out.println("Found tool " + newTool );
-            }
-        }
-    }
-    
     private Tool getToolFromPlacePart(String thisPlacePart, int turretNo, int placeNo ) {
         String toolId = getIdFromPlacePart( thisPlacePart );
         
@@ -312,7 +296,7 @@ public class C100Program {
                 // If it is, then extract the tool id.
                 Matcher m = toolIdPattern.matcher(line);
                 if (m.matches()) {
-                    currentToolId = m.group(1);
+                    currentToolId = m.group(1).trim();
                 }
                 
                 // Now remove all comments

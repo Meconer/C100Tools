@@ -17,6 +17,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 /**
  *
@@ -60,7 +61,29 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jTreeC100 = new javax.swing.JTree();
         jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jBtnChangeTool = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jTfId = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jTfType = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jTfDNo = new javax.swing.JTextField();
+        jTfSl = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jTfQValue = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        jTfLValue = new javax.swing.JTextField();
+        jTfHValue = new javax.swing.JTextField();
+        jTfRValue = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jTfQOfsValue = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jTfLOfsValue = new javax.swing.JTextField();
+        jTfHOfsValue = new javax.swing.JTextField();
+        jTfROfsValue = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuArkiv = new javax.swing.JMenu();
         jMIReadArcFile = new javax.swing.JMenuItem();
@@ -176,12 +199,80 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel4.setText("Verktygsträd");
 
-        jButton1.setText("Ändra verktyg");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jBtnChangeTool.setText("Ändra verktyg");
+        jBtnChangeTool.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jBtnChangeToolActionPerformed(evt);
             }
         });
+
+        jLabel2.setText("ID:");
+
+        jTfId.setEditable(false);
+        jTfId.setBackground(new java.awt.Color(204, 204, 204));
+        jTfId.setFocusable(false);
+
+        jLabel5.setText("Typ:");
+
+        jTfType.setEditable(false);
+        jTfType.setBackground(new java.awt.Color(204, 204, 204));
+        jTfType.setFocusable(false);
+
+        jLabel6.setText("D nr:");
+
+        jTfDNo.setEditable(false);
+        jTfDNo.setBackground(new java.awt.Color(204, 204, 204));
+        jTfDNo.setFocusable(false);
+
+        jTfSl.setEditable(false);
+        jTfSl.setBackground(new java.awt.Color(204, 204, 204));
+        jTfSl.setFocusable(false);
+
+        jLabel7.setText("SL:");
+
+        jTfQValue.setEditable(false);
+        jTfQValue.setBackground(new java.awt.Color(204, 204, 204));
+        jTfQValue.setFocusable(false);
+
+        jLabel8.setText("Q:");
+
+        jTfLValue.setEditable(false);
+        jTfLValue.setBackground(new java.awt.Color(204, 204, 204));
+        jTfLValue.setFocusable(false);
+
+        jTfHValue.setEditable(false);
+        jTfHValue.setBackground(new java.awt.Color(204, 204, 204));
+        jTfHValue.setFocusable(false);
+
+        jTfRValue.setEditable(false);
+        jTfRValue.setBackground(new java.awt.Color(204, 204, 204));
+        jTfRValue.setFocusable(false);
+
+        jLabel9.setText("L:");
+
+        jLabel10.setText("H:");
+
+        jLabel11.setText("R:");
+
+        jTfQOfsValue.setEditable(false);
+        jTfQOfsValue.setBackground(new java.awt.Color(204, 204, 204));
+        jTfQOfsValue.setFocusable(false);
+
+        jLabel12.setText("Geometri");
+
+        jLabel13.setText("Förslitning");
+
+        jTfLOfsValue.setEditable(false);
+        jTfLOfsValue.setBackground(new java.awt.Color(204, 204, 204));
+        jTfLOfsValue.setFocusable(false);
+
+        jTfHOfsValue.setEditable(false);
+        jTfHOfsValue.setBackground(new java.awt.Color(204, 204, 204));
+        jTfHOfsValue.setFocusable(false);
+
+        jTfROfsValue.setEditable(false);
+        jTfROfsValue.setBackground(new java.awt.Color(204, 204, 204));
+        jTfROfsValue.setFocusable(false);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -189,15 +280,101 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jBtnChangeTool)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel7)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9)
+                            .addComponent(jLabel10)
+                            .addComponent(jLabel11))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jTfRValue, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTfROfsValue, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jTfQValue, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel12))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel13)
+                                            .addComponent(jTfQOfsValue, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jTfLValue, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTfLOfsValue, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jTfHValue, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jTfHOfsValue, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTfId, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jTfDNo, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTfType, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTfSl, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGap(230, 230, 230))))))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
-                .addContainerGap(139, Short.MAX_VALUE))
+                .addComponent(jBtnChangeTool)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTfId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jTfType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jTfDNo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTfSl, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(jLabel13))
+                .addGap(4, 4, 4)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTfQValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTfQOfsValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTfLValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(jTfLOfsValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTfHValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10)
+                    .addComponent(jTfHOfsValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTfRValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11)
+                    .addComponent(jTfROfsValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         jMenuArkiv.setText("Arkiv");
@@ -245,7 +422,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -255,11 +432,11 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jSPC100Tree, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE))
+                    .addComponent(jSPC100Tree))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 350, Short.MAX_VALUE)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel3))
@@ -300,17 +477,20 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIBuildTreeFromToolProgramActionPerformed
 
     private void jTreeC100ValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTreeC100ValueChanged
-        System.out.println("Got here");
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTreeC100.getLastSelectedPathComponent();
         if ( selectedNode != null ) {
-            Object nodeInfo = selectedNode.getUserObject();
-            System.out.println("Node :" + nodeInfo );
+            if ( selectedNode.isLeaf() ) {
+                Tool toolAtSelectedNode = (Tool) selectedNode.getUserObject();
+                setTextFields( toolAtSelectedNode );
+            } else clearTextFields();
         }
     }//GEN-LAST:event_jTreeC100ValueChanged
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jBtnChangeToolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnChangeToolActionPerformed
+        TreePath treePath = jTreeC100.getSelectionPath();
         changeSelectedTool();
-    }//GEN-LAST:event_jButton1ActionPerformed
+        jTreeC100.setSelectionPath(treePath);
+    }//GEN-LAST:event_jBtnChangeToolActionPerformed
 
     /**
      * @param args the command line arguments
@@ -349,10 +529,20 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jBtnChangeTool;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JMenuItem jMIBuildTreeFromMainProgram;
     private javax.swing.JMenuItem jMIBuildTreeFromMeasuredTools;
     private javax.swing.JMenuItem jMIBuildTreeFromToolProgram;
@@ -367,6 +557,18 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTAProgramArea;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField jTfDNo;
+    private javax.swing.JTextField jTfHOfsValue;
+    private javax.swing.JTextField jTfHValue;
+    private javax.swing.JTextField jTfId;
+    private javax.swing.JTextField jTfLOfsValue;
+    private javax.swing.JTextField jTfLValue;
+    private javax.swing.JTextField jTfQOfsValue;
+    private javax.swing.JTextField jTfQValue;
+    private javax.swing.JTextField jTfROfsValue;
+    private javax.swing.JTextField jTfRValue;
+    private javax.swing.JTextField jTfSl;
+    private javax.swing.JTextField jTfType;
     private javax.swing.JTree jTreeC100;
     // End of variables declaration//GEN-END:variables
 
@@ -404,6 +606,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         if ( c100p != null ) {
             c100p.analyseMainProgram();
             c100p.buildC100ToolTree(jSPC100Tree, jTreeC100);
+            refreshTree(jTreeC100);
         }
     }
 
@@ -434,6 +637,38 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         }
 
 
+    }
+
+    private void setTextFields(Tool toolAtSelectedNode) {
+        jTfId.setText(toolAtSelectedNode.getId());
+        jTfType.setText( Integer.toString( toolAtSelectedNode.getType() ) );
+        jTfDNo.setText( Integer.toString( toolAtSelectedNode.getdNo() ) );
+        jTfSl.setText( Integer.toString( toolAtSelectedNode.getSlValue() ) );
+        jTfQValue.setText( toolAtSelectedNode.getqValue() );
+        jTfLValue.setText( toolAtSelectedNode.getlValue() );
+        jTfRValue.setText( toolAtSelectedNode.getrValue() );
+        jTfHValue.setText( toolAtSelectedNode.gethValue() );
+        jTfQOfsValue.setText( toolAtSelectedNode.getQ_ofs() );
+        jTfLOfsValue.setText( toolAtSelectedNode.getL_ofs() );
+        jTfROfsValue.setText( toolAtSelectedNode.getR_ofs() );
+        jTfHOfsValue.setText( toolAtSelectedNode.getH_ofs() );
+        
+    }
+
+    private void clearTextFields() {
+        jTfId.setText( "" );
+        jTfType.setText( "" );
+        jTfDNo.setText( "" );
+        jTfSl.setText( "" );
+        jTfQValue.setText( "" );
+        jTfLValue.setText( "" );
+        jTfRValue.setText( "" );
+        jTfHValue.setText( "" );
+        jTfQOfsValue.setText( "" );
+        jTfLOfsValue.setText( "" );
+        jTfROfsValue.setText( "" );
+        jTfHOfsValue.setText( "" );
+        
     }
 
 
