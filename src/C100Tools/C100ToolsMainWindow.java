@@ -26,6 +26,7 @@ import javax.swing.tree.TreePath;
 public class C100ToolsMainWindow extends javax.swing.JFrame {
 
     private C100Program c100p;
+    private ToolData toolData;
     
     
     /**
@@ -33,12 +34,21 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
      */
     public C100ToolsMainWindow() {
         initComponents();
+
         C100TransferHandler c100TransferHandler = new C100TransferHandler();
         c100p = new C100Program("");
         c100TransferHandler.setC100Program(c100p);
         c100p.setTextArea(jTAProgramArea);
         jTAProgramArea.setDragEnabled(true);
         jTAProgramArea.setTransferHandler( c100TransferHandler );
+
+        ToolDataTransferHandler toolDataTransferHandler = new ToolDataTransferHandler();
+        toolData = new ToolData();
+        toolData.setToolTextArea(jTAToolDataArea);
+        toolDataTransferHandler.setToolData(toolData);
+        jTAToolDataArea.setDragEnabled( true );
+        jTAToolDataArea.setTransferHandler( toolDataTransferHandler );
+    
     }
 
     /**
@@ -56,7 +66,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTAToolDataArea = new javax.swing.JTextArea();
         jSPC100Tree = new javax.swing.JScrollPane();
         jTreeC100 = new javax.swing.JTree();
         jLabel4 = new javax.swing.JLabel();
@@ -117,9 +127,10 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel3.setText("Inmätta verktyg");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane3.setViewportView(jTextArea1);
+        jTAToolDataArea.setColumns(20);
+        jTAToolDataArea.setRows(5);
+        jTAToolDataArea.setDragEnabled(true);
+        jScrollPane3.setViewportView(jTAToolDataArea);
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("C100");
         javax.swing.tree.DefaultMutableTreeNode treeNode2 = new javax.swing.tree.DefaultMutableTreeNode("Revolver 1");
@@ -556,7 +567,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextArea jTAProgramArea;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTAToolDataArea;
     private javax.swing.JTextField jTfDNo;
     private javax.swing.JTextField jTfHOfsValue;
     private javax.swing.JTextField jTfHValue;

@@ -235,40 +235,41 @@ public class C100Program {
 
     }
 
-    private Tool getToolFromPlacePart(String thisPlacePart, int turretNo, int placeNo ) {
-        String toolId = getIdFromPlacePart( thisPlacePart );
-        
-        if ( ! toolId.equals("") ) {
-            String regexSN = "(SN=\\d+)(.*?)(SN=)|(PL=)|(^ *$)";
-            Pattern snPattern = Pattern.compile( regexSN, Pattern.DOTALL + Pattern.MULTILINE );
-            Matcher m = snPattern.matcher(thisPlacePart);
-            while ( m.find() ) {
-                System.out.println("Regex match " + m.group() );
-            }
-            //return newTool;
-        } 
-        return null;
-    }
-
-    private int getIntValueFromPlacePart( String placePart, String nameToLookFor ) {
-        String regexp = nameToLookFor + "(\\d+)";
-        Pattern p = Pattern.compile( regexp );
-        Matcher m = p.matcher( placePart );
-        if ( m.find() ) {
-            String s = m.group(1);
-            int num = Integer.parseInt(s);
-            return num;
-        }
-        else return -Integer.MAX_VALUE;
-    }
-    
-    private String getIdFromPlacePart( String placePart ) {
-        String regexp = "ID=\"(.+)\"";
-        Pattern p = Pattern.compile( regexp );
-        Matcher m = p.matcher(placePart );
-        if ( m.find() ) return m.group(1);
-        else return "";
-    }
+//    private Tool getToolFromPlacePart(String thisPlacePart, int turretNo, int placeNo ) {
+//        String toolId = getIdFromPlacePart( thisPlacePart );
+//        
+//        if ( ! toolId.equals("") ) {
+//            String regexSN = "(SN=\\d+)(.*?)(SN=)|(PL=)|(^ *$)";
+//            Pattern snPattern = Pattern.compile( regexSN, Pattern.DOTALL + Pattern.MULTILINE );
+//            Matcher m = snPattern.matcher(thisPlacePart);
+//            while ( m.find() ) {
+//                System.out.println("Regex match " + m.group() );
+//            }
+//            //return newTool;
+//        } 
+//        return null;
+//    }
+//
+//    private int getIntValueFromPlacePart( String placePart, String nameToLookFor ) {
+//        String regexp = nameToLookFor + "(\\d+)";
+//        Pattern p = Pattern.compile( regexp );
+//        Matcher m = p.matcher( placePart );
+//        if ( m.find() ) {
+//            String s = m.group(1);
+//            int num = Integer.parseInt(s);
+//            return num;
+//        }
+//        else return -Integer.MAX_VALUE;
+//    }
+//    
+//    
+//    private String getIdFromPlacePart( String placePart ) {
+//        String regexp = "ID=\"(.+)\"";
+//        Pattern p = Pattern.compile( regexp );
+//        Matcher m = p.matcher(placePart );
+//        if ( m.find() ) return m.group(1);
+//        else return "";
+//    }
     
     private void buildUsedToolCollectionFromMainProgram() throws NumberFormatException {
         
