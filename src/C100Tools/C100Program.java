@@ -22,8 +22,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
 
 /**
  *
@@ -110,15 +108,15 @@ public class C100Program {
         Scanner scanner = new Scanner(toolListProgram);
 
         int turretNo = 0;
-        int stationNo = -Integer.MAX_VALUE;
+        int stationNo;
         String id = "";
         int placeNo = 0;
-        int dNo = 0;
+        int dNo;
         int toolType = 0;
         
         Tool tool = null ;
-        boolean toolIsStarted = false;
 
+        final String FLOAT_REGEX = "[-+]?[0-9]*\\.?[0-9]+";
         
         while (scanner.hasNext()) {
             String s = scanner.next();
@@ -158,15 +156,12 @@ public class C100Program {
                             toolType = 0;
                         }
                         
-                        System.out.println( tool );
-                        toolIsStarted = true;
                     }
 
                     // Station no
                     if ( s.matches( "^SN=\\d+" ) ) {
                         stationNo = Integer.parseInt( s.split( "=" )[1] );
                         storeTool( tool, usedTools );
-                        toolIsStarted = true;
                         tool = new Tool(id, turretNo, placeNo, stationNo, 0 );
                         tool.setType(toolType);
                     }
@@ -178,55 +173,55 @@ public class C100Program {
                     }
                     
                     // Q value
-                    if ( s.matches( "^Q=\\d+" ) ) {
+                    if ( s.matches( "^Q=" + FLOAT_REGEX  ) ) {
                         String value =  s.split( "=" )[1];
                         if ( tool != null ) tool.setqValue( value );
                     }
                     
                     // L value
-                    if ( s.matches( "^L=" ) ) {
+                    if ( s.matches( "^L=" + FLOAT_REGEX ) ) {
                         String value =  s.split( "=" )[1];
                         if ( tool != null ) tool.setlValue( value );
                     }
                     
                     // H value
-                    if ( s.matches( "^H=" ) ) {
+                    if ( s.matches( "^H=" + FLOAT_REGEX  ) ) {
                         String value =  s.split( "=" )[1];
                         if ( tool != null ) tool.sethValue( value );
                     }
                     
                     // R value
-                    if ( s.matches( "^R=" ) ) {
+                    if ( s.matches( "^R=" + FLOAT_REGEX  ) ) {
                         String value =  s.split( "=" )[1];
                         if ( tool != null ) tool.setrValue( value );
                     }
                     
                     // SL value
-                    if ( s.matches( "^SL=" ) ) {
+                    if ( s.matches( "^SL=\\d+" ) ) {
                         int value =  Integer.parseInt( s.split( "=" )[1] );
                         if ( tool != null ) tool.setSlValue( value );
                     }
                     
                     // V_Q value
-                    if ( s.matches( "^V_Q=" ) ) {
+                    if ( s.matches( "^V_Q=" + FLOAT_REGEX  ) ) {
                         String value =  s.split( "=" )[1];
                         if ( tool != null ) tool.setQ_ofs( value );
                     }
                     
                     // V_L value
-                    if ( s.matches( "^V_L=" ) ) {
+                    if ( s.matches( "^V_L=" + FLOAT_REGEX  ) ) {
                         String value =  s.split( "=" )[1];
                         if ( tool != null ) tool.setL_ofs( value );
                     }
                     
                     // V_H value
-                    if ( s.matches( "^V_H=" ) ) {
+                    if ( s.matches( "^V_H=" + FLOAT_REGEX  ) ) {
                         String value =  s.split( "=" )[1];
                         if ( tool != null ) tool.setH_ofs( value );
                     }
                     
                     // V_R value
-                    if ( s.matches( "^V_R=" ) ) {
+                    if ( s.matches( "^V_R=" + FLOAT_REGEX  ) ) {
                         String value =  s.split( "=" )[1];
                         if ( tool != null ) tool.setR_ofs( value );
                     }
@@ -382,32 +377,32 @@ public class C100Program {
         this.jTAProgramArea = jTAProgramArea;
     }
 
-    public void buildC100ToolTree(JScrollPane jSPC100TreePane) {
-        
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode("C100");
-      
-        for ( int turretNo = 1 ; turretNo <= Tool.MAX_TURRET_NUMBER ; turretNo++ ) {
-            DefaultMutableTreeNode turretTree = new DefaultMutableTreeNode("Revolver " + turretNo);
-            root.add(turretTree);
-            for ( int placeNo = 1 ; placeNo <= Tool.MAX_PLACE_NUMBER ; placeNo++ ) {
-                ArrayList<Tool> toolListByPlace = usedTools.getToolsByPlace(turretNo, placeNo);
-                if ( !toolListByPlace.isEmpty() ) {
-                    DefaultMutableTreeNode placeNode = new DefaultMutableTreeNode("Plats " + placeNo );
-                    turretTree.add(placeNode);
-                    Iterator<Tool> toolIterator = toolListByPlace.iterator();
-                    while (toolIterator.hasNext() ) {
-                        DefaultMutableTreeNode tool = new DefaultMutableTreeNode( toolIterator.next() );
-                        placeNode.add(tool);
-                    }
-                }
-            }
-        }
-        JTree jTreeC100 = new JTree(root);
-        jSPC100TreePane.setViewportView(jTreeC100);
-        for (int i = 0; i < jTreeC100.getRowCount(); i++) {
-            jTreeC100.expandRow(i);
-        }
-    }
+//    public void buildC100ToolTree(JScrollPane jSPC100TreePane) {
+//        
+//        DefaultMutableTreeNode root = new DefaultMutableTreeNode("C100");
+//      
+//        for ( int turretNo = 1 ; turretNo <= Tool.MAX_TURRET_NUMBER ; turretNo++ ) {
+//            DefaultMutableTreeNode turretTree = new DefaultMutableTreeNode("Revolver " + turretNo);
+//            root.add(turretTree);
+//            for ( int placeNo = 1 ; placeNo <= Tool.MAX_PLACE_NUMBER ; placeNo++ ) {
+//                ArrayList<Tool> toolListByPlace = usedTools.getToolsByPlace(turretNo, placeNo);
+//                if ( !toolListByPlace.isEmpty() ) {
+//                    DefaultMutableTreeNode placeNode = new DefaultMutableTreeNode("Plats " + placeNo );
+//                    turretTree.add(placeNode);
+//                    Iterator<Tool> toolIterator = toolListByPlace.iterator();
+//                    while (toolIterator.hasNext() ) {
+//                        DefaultMutableTreeNode tool = new DefaultMutableTreeNode( toolIterator.next() );
+//                        placeNode.add(tool);
+//                    }
+//                }
+//            }
+//        }
+//        JTree jTreeC100 = new JTree(root);
+//        jSPC100TreePane.setViewportView(jTreeC100);
+//        for (int i = 0; i < jTreeC100.getRowCount(); i++) {
+//            jTreeC100.expandRow(i);
+//        }
+//    }
 
     public void buildC100ToolTree(JScrollPane jSPC100TreePane, JTree jTreeC100 ) {
         
@@ -430,14 +425,6 @@ public class C100Program {
                 }
             }
         }
-
-        DefaultTreeModel model = (DefaultTreeModel) jTreeC100.getModel();
-        model.reload();
-        
-        for (int i = 0; i < jTreeC100.getRowCount(); i++) {
-            jTreeC100.expandRow(i);
-        }
-
     }
 
     void analyseToolListProgram() {

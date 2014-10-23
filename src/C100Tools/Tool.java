@@ -6,6 +6,8 @@
 
 package C100Tools;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author mats
@@ -183,6 +185,12 @@ public class Tool {
                "Rev=" + turretNo + " \n" +
                "T=" + placeNo + " D=" + dNo + " SN=" + stationNo;
                 
+    }
+    
+    public void openChangeToolDialog( JFrame parent ) {
+        ChangeToolDialog changeToolDialog = new ChangeToolDialog( parent, true);
+        changeToolDialog.setTool(this);
+        changeToolDialog.setVisible(true);
     }
     
 }

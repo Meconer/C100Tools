@@ -14,7 +14,9 @@ import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -409,7 +411,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         if ( c100p != null ) {
             c100p.analyseToolListProgram();
             c100p.buildC100ToolTree(jSPC100Tree, jTreeC100);
-            
+            refreshTree( jTreeC100 );
         }
     }
 
@@ -418,11 +420,20 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         if ( selectedNode != null ) {
             if (selectedNode.isLeaf() ) {
                 Tool tool = ( Tool ) selectedNode.getUserObject();
-                ChangeToolDialog changeToolDialog = new ChangeToolDialog( this, true );
-                changeToolDialog.setTool( tool );
-                changeToolDialog.setVisible( true );
+                tool.openChangeToolDialog(this);
+                refreshTree( jTreeC100 );
             }
         }
+    }
+
+    private void refreshTree(JTree jTreeC100) {
+        DefaultTreeModel defaultTreeModel = (DefaultTreeModel) jTreeC100.getModel();
+        defaultTreeModel.reload();
+        for (int i = 0; i < jTreeC100.getRowCount(); i++) {
+            jTreeC100.expandRow(i);
+        }
+
+
     }
 
 
