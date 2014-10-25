@@ -11,6 +11,9 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -94,6 +97,8 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jTfLOfsValue = new javax.swing.JTextField();
         jTfHOfsValue = new javax.swing.JTextField();
         jTfROfsValue = new javax.swing.JTextField();
+        jPanel3 = new javax.swing.JPanel();
+        jBtnFillInMeasuredTools = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuArkiv = new javax.swing.JMenu();
         jMIReadArcFile = new javax.swing.JMenuItem();
@@ -388,6 +393,30 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
+        jBtnFillInMeasuredTools.setText("<< Fyll i från inmätta verktyg");
+        jBtnFillInMeasuredTools.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnFillInMeasuredToolsActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jBtnFillInMeasuredTools, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(208, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jBtnFillInMeasuredTools)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         jMenuArkiv.setText("Arkiv");
 
         jMIReadArcFile.setText("Öppna C100 Arc-fil");
@@ -447,11 +476,16 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel3))
-                .addGap(28, 28, 28))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel3))
+                        .addGap(28, 28, 28))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -468,7 +502,9 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
                     .addComponent(jSPC100Tree, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
                     .addComponent(jScrollPane3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -502,6 +538,10 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         changeSelectedTool();
         jTreeC100.setSelectionPath(treePath);
     }//GEN-LAST:event_jBtnChangeToolActionPerformed
+
+    private void jBtnFillInMeasuredToolsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnFillInMeasuredToolsActionPerformed
+        fillInValuesFromMeasuredTools();
+    }//GEN-LAST:event_jBtnFillInMeasuredToolsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -541,6 +581,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnChangeTool;
+    private javax.swing.JButton jBtnFillInMeasuredTools;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -563,6 +604,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuTools;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jSPC100Tree;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
@@ -680,6 +722,38 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jTfROfsValue.setText( "" );
         jTfHOfsValue.setText( "" );
         
+    }
+
+    private void fillInValuesFromMeasuredTools() {
+        
+        Iterator<MeasuredTool> measuredToolListIterator = toolData.getIterator();
+        
+        while ( measuredToolListIterator.hasNext() ) {
+            MeasuredTool mTool = measuredToolListIterator.next();
+            Tool toolToChange = findToolByDNo( jTreeC100, mTool.getdNo() );
+            if ( toolToChange == null ) return;
+            toolToChange.setSlValue( mTool.getsL() );
+            toolToChange.setqValue( mTool.getqVal() );
+            toolToChange.setlValue( mTool.getlVal() );
+            toolToChange.setrValue( mTool.getrVal() );
+        }
+        
+        refreshTree(jTreeC100);
+        clearTextFields();
+        
+    }
+
+    private Tool findToolByDNo(JTree jTreeC100, int dNo) {
+        DefaultMutableTreeNode treeNode = (DefaultMutableTreeNode) jTreeC100.getModel().getRoot();
+        Enumeration treeEnumeration = treeNode.postorderEnumeration();
+        while ( treeEnumeration.hasMoreElements() ) {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) treeEnumeration.nextElement();
+            if ( node.isLeaf() ) {
+                Tool tool = (Tool) node.getUserObject();
+                if ( tool.getdNo() == dNo ) return tool;
+            }
+        }
+        return null;
     }
 
 
