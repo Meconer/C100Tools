@@ -10,7 +10,10 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -18,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
@@ -37,6 +41,7 @@ public class C100Program {
     String entireProgram;
     private ToolCollection usedTools;
     private JTextArea jTAProgramArea;
+    private Path currentFilePath;
 
     public C100Program(String entireProgram) {
         this.entireProgram = entireProgram;
@@ -92,6 +97,55 @@ public class C100Program {
                 toolCollection.addTool(tool);
             }
         }
+    }
+
+    void storeToolTreeInArc() {
+        Pattern p = Pattern.compile( "(.*)MAG=1.*" , Pattern.DOTALL + Pattern.MULTILINE );
+        Matcher m = p.matcher(toolListProgram);
+        String newToolListProgram = "";
+        if ( m.matches() ) newToolListProgram = m.group(1);
+        
+        for ( int turretNo = 1 ; turretNo <= 3 ; turretNo++ ) {
+            newToolListProgram += "MAG=" + turretNo + "\n";
+            for ( int placeNo = 1 ; placeNo <= 10 ; placeNo++ ){
+                newToolListProgram += "  PL=" + placeNo;
+                ArrayList<Tool> toolList = usedTools.getToolsByPlace(turretNo, placeNo);
+                if ( toolList.isEmpty() ) {
+                    newToolListProgram += " ID= \"\"\n";
+                } else {
+                    Iterator<Tool> toolListIterator = toolList.iterator();
+                    Tool tool = toolListIterator.next();
+                    newToolListProgram += " ID=\"" + tool.getId() + "\" TYP=" + tool.getType() + "\n";
+                    boolean ready = false;
+                    do {
+                        newToolListProgram += "    SN=" + tool.getStationNo() + " D=" + tool.getdNo() + "\n";
+                        newToolListProgram += "     " + getOptionalString(" Q=",tool.getqValue() ) + 
+                                getOptionalString(" L=", tool.getlValue() ) +
+                                getOptionalString(" H=", tool.gethValue() ) +
+                                getOptionalString(" R=", tool.getrValue() ) + "\n";
+                        newToolListProgram += "      SL=" + tool.getSlValue() + "\n";
+                        String ofsString = getOptionalString(" V_Q=", tool.getQ_ofs() ) + 
+                                getOptionalString(" V_L=", tool.getL_ofs() ) +
+                                getOptionalString(" V_H=", tool.getH_ofs() ) +
+                                getOptionalString(" V_R=", tool.getR_ofs() );
+                        if ( !ofsString.isEmpty() ) newToolListProgram  += "     " + ofsString + "\n";
+                        if ( toolListIterator.hasNext() ) {
+                            tool = toolListIterator.next();
+                        } else {
+                            ready = true;
+                        }
+                    } while (!ready);
+                }
+            }
+        }
+        System.out.println(newToolListProgram);
+    }
+
+    private String getOptionalString(String s, String valueString ) {
+        if ( valueString != null  ) {
+            return s + valueString;
+        }
+        return "";
     }
 
     
@@ -348,9 +402,21 @@ public class C100Program {
                 entireProgram = cs.decode(ByteBuffer.wrap(encoded)).toString();
                 jTAProgramArea.setText(entireProgram);
                 extractParts();
+                currentFilePath = Paths.get(fileName);
+                System.out.println("Path " + currentFilePath);
             } catch (IOException ex) {
                 Logger.getLogger(C100ToolsMainWindow.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+    
+    void saveFile() {
+        entireProgram = jTAProgramArea.getText();
+        System.out.println( entireProgram );
+        try {
+            Files.write(currentFilePath, entireProgram.getBytes() );
+        } catch (IOException ex) {
+            JOptionPane.showConfirmDialog( null , "Kunde inte spara filen " + ex.getMessage() , "FEL!", JOptionPane.OK_OPTION);
         }
     }
 

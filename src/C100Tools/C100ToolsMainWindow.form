@@ -17,6 +17,14 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIReadArcFileActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMISaveArcFile">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Spara C100 Arc-fil"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMISaveArcFileActionPerformed"/>
+              </Events>
+            </MenuItem>
           </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="jMenuTools">
@@ -44,6 +52,16 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Bygg verktygstr&#xe4;d fr&#xe5;n inm&#xe4;tta verktyg"/>
               </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator1">
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="jMIEnterToolTreeInArcFile">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="S&#xe4;tt in verktygstr&#xe4;det i arcfilen"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMIEnterToolTreeInArcFileActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

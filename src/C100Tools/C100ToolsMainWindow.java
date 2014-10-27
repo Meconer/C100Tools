@@ -102,10 +102,13 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuArkiv = new javax.swing.JMenu();
         jMIReadArcFile = new javax.swing.JMenuItem();
+        jMISaveArcFile = new javax.swing.JMenuItem();
         jMenuTools = new javax.swing.JMenu();
         jMIBuildTreeFromMainProgram = new javax.swing.JMenuItem();
         jMIBuildTreeFromToolProgram = new javax.swing.JMenuItem();
         jMIBuildTreeFromMeasuredTools = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        jMIEnterToolTreeInArcFile = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("C100Tools");
@@ -427,6 +430,14 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         });
         jMenuArkiv.add(jMIReadArcFile);
 
+        jMISaveArcFile.setText("Spara C100 Arc-fil");
+        jMISaveArcFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMISaveArcFileActionPerformed(evt);
+            }
+        });
+        jMenuArkiv.add(jMISaveArcFile);
+
         jMenuBar1.add(jMenuArkiv);
 
         jMenuTools.setText("Verktyg");
@@ -449,6 +460,15 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
 
         jMIBuildTreeFromMeasuredTools.setText("Bygg verktygsträd från inmätta verktyg");
         jMenuTools.add(jMIBuildTreeFromMeasuredTools);
+        jMenuTools.add(jSeparator1);
+
+        jMIEnterToolTreeInArcFile.setText("Sätt in verktygsträdet i arcfilen");
+        jMIEnterToolTreeInArcFile.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIEnterToolTreeInArcFileActionPerformed(evt);
+            }
+        });
+        jMenuTools.add(jMIEnterToolTreeInArcFile);
 
         jMenuBar1.add(jMenuTools);
 
@@ -543,6 +563,14 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         fillInValuesFromMeasuredTools();
     }//GEN-LAST:event_jBtnFillInMeasuredToolsActionPerformed
 
+    private void jMISaveArcFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMISaveArcFileActionPerformed
+        saveArcFile();
+    }//GEN-LAST:event_jMISaveArcFileActionPerformed
+
+    private void jMIEnterToolTreeInArcFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIEnterToolTreeInArcFileActionPerformed
+        enterToolTreeInArcFile();
+    }//GEN-LAST:event_jMIEnterToolTreeInArcFileActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -598,7 +626,9 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMIBuildTreeFromMainProgram;
     private javax.swing.JMenuItem jMIBuildTreeFromMeasuredTools;
     private javax.swing.JMenuItem jMIBuildTreeFromToolProgram;
+    private javax.swing.JMenuItem jMIEnterToolTreeInArcFile;
     private javax.swing.JMenuItem jMIReadArcFile;
+    private javax.swing.JMenuItem jMISaveArcFile;
     private javax.swing.JMenu jMenuArkiv;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuTools;
@@ -608,6 +638,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jSPC100Tree;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JTextArea jTAProgramArea;
     private javax.swing.JTextArea jTAToolDataArea;
     private javax.swing.JTextField jTfDNo;
@@ -736,6 +767,10 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
             toolToChange.setqValue( mTool.getqVal() );
             toolToChange.setlValue( mTool.getlVal() );
             toolToChange.setrValue( mTool.getrVal() );
+            toolToChange.setQ_ofs( "" );
+            toolToChange.setL_ofs( "" );
+            toolToChange.setH_ofs( "" );
+            toolToChange.setR_ofs( "" );
         }
         
         refreshTree(jTreeC100);
@@ -754,6 +789,14 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
             }
         }
         return null;
+    }
+
+    private void saveArcFile() {
+        c100p.saveFile();
+    }
+
+    private void enterToolTreeInArcFile() {
+        c100p.storeToolTreeInArc();
     }
 
 
