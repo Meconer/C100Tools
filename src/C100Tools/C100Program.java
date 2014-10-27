@@ -123,7 +123,10 @@ public class C100Program {
                                 getOptionalString(" L=", tool.getlValue() ) +
                                 getOptionalString(" H=", tool.gethValue() ) +
                                 getOptionalString(" R=", tool.getrValue() ) + "\n";
-                        newToolListProgram += "      SL=" + tool.getSlValue() + "\n";
+                        int sl = tool.getSlValue();
+                        if ( sl !=0 ) {
+                            newToolListProgram += "      SL=" + sl + "\n";
+                        }
                         String ofsString = getOptionalString(" V_Q=", tool.getQ_ofs() ) + 
                                 getOptionalString(" V_L=", tool.getL_ofs() ) +
                                 getOptionalString(" V_H=", tool.getH_ofs() ) +
@@ -138,11 +141,26 @@ public class C100Program {
                 }
             }
         }
-        System.out.println(newToolListProgram);
+        
+        newToolListProgram += "\n_J:\nM30\n";
+        
+        String regexp = "^" + TOOLLISTPROGHEADER + ".*?M30";
+        p = Pattern.compile(regexp, Pattern.MULTILINE + Pattern.DOTALL);
+        m = p.matcher(entireProgram);
+        if ( m.find() ) {
+            entireProgram = entireProgram.substring(0, m.start() ) +
+                    TOOLLISTPROGHEADER + "\n" +
+                    newToolListProgram + entireProgram.substring(m.end());
+            System.out.println("Matches!");
+        }
+        //System.out.println(entireProgram);
+        jTAProgramArea.setText(entireProgram);
+        
     }
 
     private String getOptionalString(String s, String valueString ) {
         if ( valueString != null  ) {
+            if ( valueString.isEmpty() ) return "";
             return s + valueString;
         }
         return "";
@@ -412,7 +430,6 @@ public class C100Program {
     
     void saveFile() {
         entireProgram = jTAProgramArea.getText();
-        System.out.println( entireProgram );
         try {
             Files.write(currentFilePath, entireProgram.getBytes() );
         } catch (IOException ex) {
