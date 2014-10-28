@@ -10,10 +10,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -106,6 +104,7 @@ public class C100Program {
         if ( m.matches() ) newToolListProgram = m.group(1);
         
         for ( int turretNo = 1 ; turretNo <= 3 ; turretNo++ ) {
+            if ( turretNo > 1 ) newToolListProgram += "\n; Revolver " + turretNo + "\n";
             newToolListProgram += "MAG=" + turretNo + "\n";
             for ( int placeNo = 1 ; placeNo <= 10 ; placeNo++ ){
                 newToolListProgram += "  PL=" + placeNo;
@@ -186,6 +185,8 @@ public class C100Program {
         int dNo;
         int toolType = 0;
         
+        boolean toolIsStarted = false;
+        
         Tool tool = null ;
 
         final String FLOAT_REGEX = "[-+]?[0-9]*\\.?[0-9]+";
@@ -236,6 +237,7 @@ public class C100Program {
                         storeTool( tool, usedTools );
                         tool = new Tool(id, turretNo, placeNo, stationNo, 0 );
                         tool.setType(toolType);
+                        toolIsStarted = true;
                     }
                     
                     // D no
@@ -303,8 +305,8 @@ public class C100Program {
                 System.out.println("FEL: " + e.getMessage() );
             }
         }
-
-
+        // Store last tool if we found any.
+        if ( toolIsStarted ) storeTool(tool, usedTools);
     }
 
 //    private Tool getToolFromPlacePart(String thisPlacePart, int turretNo, int placeNo ) {
