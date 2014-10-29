@@ -70,6 +70,17 @@ class ToolData {
                 }
             }
             
+            // TYP
+            if ( s.matches( "TYP=\\d+" )) {
+                if ( mTool != null ) {
+                    try {
+                        mTool.setToolType( Integer.parseInt(s.split("=")[1]) );
+                    } catch ( NumberFormatException e ) {
+                        showError( );
+                    }
+                }
+            }
+            
             // Q
             if ( s.matches( "^Q=" + FLOAT_REGEX )) {
                 if ( mTool != null ) {

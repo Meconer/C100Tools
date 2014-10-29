@@ -767,6 +767,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
             toolToChange.setqValue( mTool.getqVal() );
             toolToChange.setlValue( mTool.getlVal() );
             toolToChange.setrValue( mTool.getrVal() );
+            toolToChange.setType( mTool.getToolType() );
             toolToChange.setQ_ofs( "" );
             toolToChange.setL_ofs( "" );
             toolToChange.setH_ofs( "" );

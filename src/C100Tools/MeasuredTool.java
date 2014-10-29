@@ -13,6 +13,7 @@ package C100Tools;
 class MeasuredTool {
     private int dNo = -Integer.MAX_VALUE;
     private int sL = -Integer.MAX_VALUE;
+    private int toolType = -Integer.MAX_VALUE;
     private String qVal = "";
     private String lVal = "";
     private String rVal = "";
@@ -55,6 +56,14 @@ class MeasuredTool {
 
     public void setrVal(String rVal) {
         this.rVal = rVal;
+    }
+
+    public void setToolType(int toolType) {
+        this.toolType = toolType;
+    }
+    
+    public int getToolType() {
+        return toolType;
     }
     
     
