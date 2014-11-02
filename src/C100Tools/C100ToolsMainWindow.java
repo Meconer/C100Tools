@@ -63,6 +63,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem1 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTAProgramArea = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
@@ -109,6 +110,10 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jMIBuildTreeFromMeasuredTools = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMIEnterToolTreeInArcFile = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMIBuildOdsToolList = new javax.swing.JMenuItem();
+
+        jMenuItem1.setText("jMenuItem1");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("C100Tools");
@@ -469,6 +474,15 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
             }
         });
         jMenuTools.add(jMIEnterToolTreeInArcFile);
+        jMenuTools.add(jSeparator2);
+
+        jMIBuildOdsToolList.setText("Skapa ods-verktygslista");
+        jMIBuildOdsToolList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMIBuildOdsToolListActionPerformed(evt);
+            }
+        });
+        jMenuTools.add(jMIBuildOdsToolList);
 
         jMenuBar1.add(jMenuTools);
 
@@ -571,6 +585,10 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         enterToolTreeInArcFile();
     }//GEN-LAST:event_jMIEnterToolTreeInArcFileActionPerformed
 
+    private void jMIBuildOdsToolListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIBuildOdsToolListActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMIBuildOdsToolListActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -623,6 +641,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JMenuItem jMIBuildOdsToolList;
     private javax.swing.JMenuItem jMIBuildTreeFromMainProgram;
     private javax.swing.JMenuItem jMIBuildTreeFromMeasuredTools;
     private javax.swing.JMenuItem jMIBuildTreeFromToolProgram;
@@ -631,6 +650,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMISaveArcFile;
     private javax.swing.JMenu jMenuArkiv;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu jMenuTools;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -639,6 +659,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JTextArea jTAProgramArea;
     private javax.swing.JTextArea jTAToolDataArea;
     private javax.swing.JTextField jTfDNo;
@@ -762,16 +783,17 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         while ( measuredToolListIterator.hasNext() ) {
             MeasuredTool mTool = measuredToolListIterator.next();
             Tool toolToChange = findToolByDNo( jTreeC100, mTool.getdNo() );
-            if ( toolToChange == null ) return;
-            toolToChange.setSlValue( mTool.getsL() );
-            toolToChange.setqValue( mTool.getqVal() );
-            toolToChange.setlValue( mTool.getlVal() );
-            toolToChange.setrValue( mTool.getrVal() );
-            toolToChange.setType( mTool.getToolType() );
-            toolToChange.setQ_ofs( "" );
-            toolToChange.setL_ofs( "" );
-            toolToChange.setH_ofs( "" );
-            toolToChange.setR_ofs( "" );
+            if ( toolToChange != null ) {
+                toolToChange.setSlValue( mTool.getsL() );
+                toolToChange.setqValue( mTool.getqVal() );
+                toolToChange.setlValue( mTool.getlVal() );
+                toolToChange.setrValue( mTool.getrVal() );
+                toolToChange.setType( mTool.getToolType() );
+                toolToChange.setQ_ofs( "" );
+                toolToChange.setL_ofs( "" );
+                toolToChange.setH_ofs( "" );
+                toolToChange.setR_ofs( "" );
+            }
         }
         
         refreshTree(jTreeC100);

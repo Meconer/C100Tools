@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -432,10 +433,21 @@ public class C100Program {
     
     void saveFile() {
         entireProgram = jTAProgramArea.getText();
-        try {
-            Files.write(currentFilePath, entireProgram.getBytes() );
-        } catch (IOException ex) {
-            JOptionPane.showConfirmDialog( null , "Kunde inte spara filen " + ex.getMessage() , "FEL!", JOptionPane.OK_OPTION);
+        boolean okToSave = false;
+        if ( Files.exists(currentFilePath) ) {
+            int retVal = JOptionPane.showConfirmDialog(jTAProgramArea, "Filen finns. Skriva över?", "Filen finns", JOptionPane.YES_NO_OPTION);
+            if ( retVal == JOptionPane.YES_OPTION ) {
+                okToSave = true;
+            }
+        } else {
+            okToSave = true;
+        }
+        if ( okToSave ) {
+            try {
+                Files.write(currentFilePath, entireProgram.getBytes() );
+            } catch (IOException ex) {
+                JOptionPane.showConfirmDialog( null , "Kunde inte spara filen " + ex.getMessage() , "FEL!", JOptionPane.OK_OPTION);
+            }
         }
     }
 
