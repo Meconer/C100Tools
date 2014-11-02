@@ -6,10 +6,12 @@
 
 package C100Tools;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -18,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JTree;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -104,6 +107,8 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jMenuArkiv = new javax.swing.JMenu();
         jMIReadArcFile = new javax.swing.JMenuItem();
         jMISaveArcFile = new javax.swing.JMenuItem();
+        jSeparator4 = new javax.swing.JPopupMenu.Separator();
+        jMiSettings = new javax.swing.JMenuItem();
         jMenuTools = new javax.swing.JMenu();
         jMIBuildTreeFromMainProgram = new javax.swing.JMenuItem();
         jMIBuildTreeFromToolProgram = new javax.swing.JMenuItem();
@@ -442,6 +447,15 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
             }
         });
         jMenuArkiv.add(jMISaveArcFile);
+        jMenuArkiv.add(jSeparator4);
+
+        jMiSettings.setText("Inställningar");
+        jMiSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMiSettingsActionPerformed(evt);
+            }
+        });
+        jMenuArkiv.add(jMiSettings);
 
         jMenuBar1.add(jMenuArkiv);
 
@@ -586,8 +600,12 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMIEnterToolTreeInArcFileActionPerformed
 
     private void jMIBuildOdsToolListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMIBuildOdsToolListActionPerformed
-        // TODO add your handling code here:
+        createOdsToolList();
     }//GEN-LAST:event_jMIBuildOdsToolListActionPerformed
+
+    private void jMiSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMiSettingsActionPerformed
+        showSettingsDialog();
+    }//GEN-LAST:event_jMiSettingsActionPerformed
 
     /**
      * @param args the command line arguments
@@ -652,6 +670,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu jMenuTools;
+    private javax.swing.JMenuItem jMiSettings;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -660,6 +679,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator4;
     private javax.swing.JTextArea jTAProgramArea;
     private javax.swing.JTextArea jTAToolDataArea;
     private javax.swing.JTextField jTfDNo;
@@ -820,6 +840,35 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
 
     private void enterToolTreeInArcFile() {
         c100p.storeToolTreeInArc();
+    }
+
+    private void createOdsToolList() {
+        File toolListFile;
+        JFileChooser fc = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+            "ODS-filer", "ods");
+        fc.setFileFilter(filter);
+        
+        if ( c100p.hasFile() ) {
+            Path path = c100p.getCurrentDir();
+            path = Paths.get( path.toString() + "\\vlist.ods" );
+            toolListFile = path.toFile();
+            if ( toolListFile != null ) fc.setSelectedFile( toolListFile );
+        } else {
+            toolListFile = Paths.get("vlist.ods").toFile();
+            fc.setSelectedFile(toolListFile);
+        }
+        
+        int returnVal = fc.showOpenDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            c100p.createOdsToolList( toolListFile );
+        }
+
+    }
+
+    private void showSettingsDialog() {
+        C100Preferences c100Preferences = C100Preferences.getInstance();
+        c100Preferences.showPrefDialog();
     }
 
 

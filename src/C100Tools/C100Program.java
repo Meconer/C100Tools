@@ -6,6 +6,7 @@
 
 package C100Tools;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -25,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  *
@@ -164,6 +166,23 @@ public class C100Program {
             return s + valueString;
         }
         return "";
+    }
+
+    boolean hasFile() {
+        return ( entireProgram != null );
+    }
+
+    Path getCurrentDir() {
+        return currentFilePath.getParent();
+    }
+
+    void createOdsToolList(File toolListFile) {
+        OdsToolList odsToolList = new OdsToolList(toolListFile);
+        try {
+            odsToolList.createOdsToolList(usedTools);
+        } catch (IOException ex) {
+            Logger.getLogger(C100Program.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     
