@@ -13,7 +13,6 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -701,18 +700,19 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
 
         String fileName = getWantedFile();
         if ( fileName != null ) {
+            c100p.readFile(fileName);
 
-            byte[] encoded;
-            try {
-                encoded = Files.readAllBytes(Paths.get(fileName));
-                Charset cs = Charset.forName("ISO_8859_1");
-                String arcFileAsString = cs.decode(ByteBuffer.wrap(encoded)).toString();
-                c100p = new C100Program(arcFileAsString);
-                jTAProgramArea.setText(arcFileAsString);
-            
-            } catch (IOException ex) {
-                Logger.getLogger(C100ToolsMainWindow.class.getName()).log(Level.SEVERE, null, ex);
-            }
+//            byte[] encoded;
+//            try {
+//                encoded = Files.readAllBytes(Paths.get(fileName));
+//                Charset cs = Charset.forName("ISO_8859_1");
+//                String arcFileAsString = cs.decode(ByteBuffer.wrap(encoded)).toString();
+//                c100p = new C100Program(arcFileAsString);
+//                jTAProgramArea.setText(arcFileAsString);
+//            
+//            } catch (IOException ex) {
+//                Logger.getLogger(C100ToolsMainWindow.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         }
     }
 

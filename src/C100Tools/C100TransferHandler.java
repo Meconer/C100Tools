@@ -77,7 +77,7 @@ public class C100TransferHandler extends TransferHandler {
 
         for (int i = 0; i < values.size(); i++) {
             String val = values.get(i);
-            buff.append(val == null ? "" : val.toString());
+            buff.append(val == null ? "" : val);
             if (i != values.size() - 1) {
                 buff.append("\n");
             }
