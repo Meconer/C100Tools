@@ -6,6 +6,7 @@
 
 package C100Tools;
 
+import static C100Tools.C100ToolsMainWindow.rb;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -15,6 +16,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -53,8 +56,21 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         toolDataTransferHandler.setToolData(toolData);
         jTAToolDataArea.setDragEnabled( true );
         jTAToolDataArea.setTransferHandler( toolDataTransferHandler );
-    
+        
     }
+
+    final static ResourceBundle rb = ResourceBundle.getBundle("version"); 
+
+    
+    public static final String getRbTok(String propToken) { 
+        String msg = ""; 
+        try { 
+            msg = rb.getString(propToken); 
+        } catch (MissingResourceException e) { 
+            System.err.println("Token ".concat(propToken).concat(" not in Propertyfile!")); 
+        } 
+        return msg; 
+    } 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -65,7 +81,6 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuItem1 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTAProgramArea = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
@@ -116,8 +131,8 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jMIEnterToolTreeInArcFile = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMIBuildOdsToolList = new javax.swing.JMenuItem();
-
-        jMenuItem1.setText("jMenuItem1");
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("C100Tools");
@@ -499,6 +514,18 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenuTools);
 
+        jMenu1.setText("Hjälp");
+
+        jMenuItem2.setText("Om");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -606,6 +633,12 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         showSettingsDialog();
     }//GEN-LAST:event_jMiSettingsActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        AboutDialog aboutDialog = new AboutDialog(this, true);
+        aboutDialog.setBuildNr( getRbTok("BUILD") );
+        aboutDialog.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -665,9 +698,10 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMIEnterToolTreeInArcFile;
     private javax.swing.JMenuItem jMIReadArcFile;
     private javax.swing.JMenuItem jMISaveArcFile;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenuArkiv;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenu jMenuTools;
     private javax.swing.JMenuItem jMiSettings;
     private javax.swing.JPanel jPanel1;
