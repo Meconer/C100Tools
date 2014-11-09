@@ -102,6 +102,21 @@ public class ToolCollection {
         return null;
     }
 
+    public void removeToolByPlaceAndStation(int turretNo, int placeNo, int stationNo ) {
+        
+        Iterator<Tool> toolIterator = collection.iterator();
+        while ( toolIterator.hasNext() ) {
+            Tool tool = toolIterator.next();
+            if ( tool.getTurretNo() == turretNo ) {
+                if ( tool.getPlaceNo() == placeNo ) {
+                    if (tool.getStationNo() == stationNo ) {
+                        toolIterator.remove();
+                    }
+                }
+            }
+        }
+    }
+
     public void calculateStationNumbers() {
         
         ArrayList<Tool> toolForThisPlace;
@@ -118,6 +133,10 @@ public class ToolCollection {
                 }
             }
         }
+    }
+
+    void remove(Tool tool) {
+        removeToolByPlaceAndStation(tool.getTurretNo(), tool.getPlaceNo(), tool.getStationNo() );
     }
 
 }

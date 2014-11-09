@@ -8,18 +8,12 @@ package C100Tools;
 
 import static C100Tools.C100ToolsMainWindow.rb;
 import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JTree;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -81,6 +75,8 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTAProgramArea = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
@@ -115,6 +111,8 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jTfLOfsValue = new javax.swing.JTextField();
         jTfHOfsValue = new javax.swing.JTextField();
         jTfROfsValue = new javax.swing.JTextField();
+        jBtnDeleteTool = new javax.swing.JButton();
+        jBtnAddTool = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jBtnFillInMeasuredTools = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -133,6 +131,9 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jMIBuildOdsToolList = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+
+        jMenuItem1.setText("jMenuItem1");
+        jPopupMenu1.add(jMenuItem1);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("C100Tools");
@@ -232,6 +233,11 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         treeNode2.add(treeNode3);
         treeNode1.add(treeNode2);
         jTreeC100.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        jTreeC100.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTreeC100MouseClicked(evt);
+            }
+        });
         jTreeC100.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
             public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
                 jTreeC100ValueChanged(evt);
@@ -317,6 +323,16 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jTfROfsValue.setBackground(new java.awt.Color(204, 204, 204));
         jTfROfsValue.setFocusable(false);
 
+        jBtnDeleteTool.setText("Radera verktyg");
+        jBtnDeleteTool.setEnabled(false);
+        jBtnDeleteTool.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnDeleteToolActionPerformed(evt);
+            }
+        });
+
+        jBtnAddTool.setText("Lägg till verktyg");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -326,6 +342,10 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jBtnChangeTool)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtnDeleteTool)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jBtnAddTool)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -376,7 +396,10 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jBtnChangeTool)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jBtnChangeTool)
+                    .addComponent(jBtnDeleteTool)
+                    .addComponent(jBtnAddTool))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -599,11 +622,20 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
 
     private void jTreeC100ValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_jTreeC100ValueChanged
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTreeC100.getLastSelectedPathComponent();
+        // Finns noden?
         if ( selectedNode != null ) {
+            // Är det lägsta nivån, dvs ett verktyg?
             if ( selectedNode.isLeaf() ) {
-                Tool toolAtSelectedNode = (Tool) selectedNode.getUserObject();
-                setTextFields( toolAtSelectedNode );
-            } else clearTextFields();
+                // Kontrollera att det inte är ett tomt träd med "Plats xx", dvs en sträng istället för ett Tool-objekt.
+                if ( !selectedNode.getUserObject().getClass().equals(String.class)) {
+                    Tool toolAtSelectedNode = (Tool) selectedNode.getUserObject();
+                    setTextFields( toolAtSelectedNode );
+                }
+                jBtnDeleteTool.setEnabled(true);
+            } else {
+                clearTextFields();
+                jBtnDeleteTool.setEnabled(false);
+            }
         }
     }//GEN-LAST:event_jTreeC100ValueChanged
 
@@ -638,6 +670,17 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         aboutDialog.setBuildNr( getRbTok("BUILD") );
         aboutDialog.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jTreeC100MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTreeC100MouseClicked
+        if ( evt.getButton() == evt.BUTTON3 ) {
+            // Right clicked. Show popup menu
+            showTreeRightClickMenu( evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_jTreeC100MouseClicked
+
+    private void jBtnDeleteToolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnDeleteToolActionPerformed
+        deleteSelectedTool();
+    }//GEN-LAST:event_jBtnDeleteToolActionPerformed
 
     /**
      * @param args the command line arguments
@@ -676,7 +719,9 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnAddTool;
     private javax.swing.JButton jBtnChangeTool;
+    private javax.swing.JButton jBtnDeleteTool;
     private javax.swing.JButton jBtnFillInMeasuredTools;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -701,12 +746,14 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenuArkiv;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenu jMenuTools;
     private javax.swing.JMenuItem jMiSettings;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jSPC100Tree;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
@@ -735,18 +782,6 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         String fileName = getWantedFile();
         if ( fileName != null ) {
             c100p.readFile(fileName);
-
-//            byte[] encoded;
-//            try {
-//                encoded = Files.readAllBytes(Paths.get(fileName));
-//                Charset cs = Charset.forName("ISO_8859_1");
-//                String arcFileAsString = cs.decode(ByteBuffer.wrap(encoded)).toString();
-//                c100p = new C100Program(arcFileAsString);
-//                jTAProgramArea.setText(arcFileAsString);
-//            
-//            } catch (IOException ex) {
-//                Logger.getLogger(C100ToolsMainWindow.class.getName()).log(Level.SEVERE, null, ex);
-//            }
         }
     }
 
@@ -781,9 +816,11 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTreeC100.getLastSelectedPathComponent();
         if ( selectedNode != null ) {
             if (selectedNode.isLeaf() ) {
-                Tool tool = ( Tool ) selectedNode.getUserObject();
-                tool.openChangeToolDialog(this);
-                refreshTree( jTreeC100 );
+                if ( !selectedNode.getUserObject().getClass().equals(String.class)) {
+                    Tool tool = ( Tool ) selectedNode.getUserObject();
+                    tool.openChangeToolDialog(this);
+                    refreshTree( jTreeC100 );
+                }
             }
         }
     }
@@ -903,6 +940,14 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     private void showSettingsDialog() {
         C100Preferences c100Preferences = C100Preferences.getInstance();
         c100Preferences.showPrefDialog();
+    }
+
+    private void showTreeRightClickMenu(int x, int y) {
+        jPopupMenu1.show(jSPC100Tree, x, y );
+    }
+
+    private void deleteSelectedTool() {
+        if ( c100p.deleteSelectedTool( jTreeC100 ) ) refreshTree(jTreeC100);
     }
 
 

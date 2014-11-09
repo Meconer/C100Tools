@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.LinkOption;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 /**
  *
@@ -81,12 +80,6 @@ public class C100Program {
         }
     }
 
-    private void printOut(String[] program ) {
-        for ( String line : program ) {
-            System.out.println(line);
-        }
-    }
-    
     public ArrayList<String> getToolsUsed(int revolverNo) {
         ArrayList<String> retToolList = usedTools.getToolList(revolverNo);
         return retToolList;
@@ -183,6 +176,19 @@ public class C100Program {
         } catch (IOException ex) {
             Logger.getLogger(C100Program.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    boolean deleteSelectedTool(JTree jTreeC100) {
+        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) jTreeC100.getLastSelectedPathComponent();
+        if ( selectedNode.isLeaf() ) {
+            if ( !selectedNode.getUserObject().getClass().equals(String.class)) {
+                Tool tool = ( Tool ) selectedNode.getUserObject();
+                usedTools.remove( tool );
+                selectedNode.removeFromParent();
+                return true;
+            }
+        }
+        return false;
     }
 
     
@@ -454,7 +460,7 @@ public class C100Program {
         entireProgram = jTAProgramArea.getText();
         boolean okToSave = false;
         if ( Files.exists(currentFilePath) ) {
-            int retVal = JOptionPane.showConfirmDialog(jTAProgramArea, "Filen finns. Skriva över?", "Filen finns", JOptionPane.YES_NO_OPTION);
+            int retVal = JOptionPane.showConfirmDialog(null, "Filen finns. Skriva över?", "Filen finns", JOptionPane.YES_NO_OPTION);
             if ( retVal == JOptionPane.YES_OPTION ) {
                 okToSave = true;
             }
