@@ -21,6 +21,7 @@ import javax.swing.KeyStroke;
 public class PrefsDialog extends javax.swing.JDialog {
     
     private String templateFileName;
+    private String standardToolFileName;
 
     /**
      * A return status code - returned if Cancel button has been pressed
@@ -70,6 +71,8 @@ public class PrefsDialog extends javax.swing.JDialog {
         cancelButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jTfTemplateFileName = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jTfStandardToolFileName = new javax.swing.JTextField();
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -94,6 +97,9 @@ public class PrefsDialog extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Templatefil");
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel2.setText("Fil med standardverktyg");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -106,10 +112,13 @@ public class PrefsDialog extends javax.swing.JDialog {
                         .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cancelButton))
+                    .addComponent(jTfTemplateFileName)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTfTemplateFileName)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jTfStandardToolFileName))
                 .addContainerGap())
         );
 
@@ -119,10 +128,14 @@ public class PrefsDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTfTemplateFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 235, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTfTemplateFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTfStandardToolFileName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 157, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
                     .addComponent(okButton))
@@ -136,6 +149,7 @@ public class PrefsDialog extends javax.swing.JDialog {
 
     private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
         templateFileName = jTfTemplateFileName.getText();
+        standardToolFileName = jTfStandardToolFileName.getText();
         doClose(RET_OK);
     }//GEN-LAST:event_okButtonActionPerformed
 
@@ -201,6 +215,8 @@ public class PrefsDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextField jTfStandardToolFileName;
     private javax.swing.JTextField jTfTemplateFileName;
     private javax.swing.JButton okButton;
     // End of variables declaration//GEN-END:variables
@@ -214,5 +230,14 @@ public class PrefsDialog extends javax.swing.JDialog {
 
     String getTemplateFileName() {
         return templateFileName;
+    }
+
+    public void setStandardToolFileName(String standardToolFileName) {
+        this.standardToolFileName = standardToolFileName;
+        jTfStandardToolFileName.setText(standardToolFileName);
+    }
+
+    public String getStandardToolFileName() {
+        return standardToolFileName;
     }
 }

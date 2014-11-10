@@ -115,6 +115,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         jBtnAddTool = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jBtnFillInMeasuredTools = new javax.swing.JButton();
+        jBtnAddStandardTools = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuArkiv = new javax.swing.JMenu();
         jMIReadArcFile = new javax.swing.JMenuItem();
@@ -450,13 +451,22 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
             }
         });
 
+        jBtnAddStandardTools.setText("Lägg till standardverktyg");
+        jBtnAddStandardTools.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBtnAddStandardToolsActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jBtnFillInMeasuredTools, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jBtnAddStandardTools, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jBtnFillInMeasuredTools, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE))
                 .addContainerGap(208, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -464,6 +474,8 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jBtnFillInMeasuredTools)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBtnAddStandardTools)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -682,6 +694,10 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
         deleteSelectedTool();
     }//GEN-LAST:event_jBtnDeleteToolActionPerformed
 
+    private void jBtnAddStandardToolsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnAddStandardToolsActionPerformed
+        addStandardTools();
+    }//GEN-LAST:event_jBtnAddStandardToolsActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -719,6 +735,7 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBtnAddStandardTools;
     private javax.swing.JButton jBtnAddTool;
     private javax.swing.JButton jBtnChangeTool;
     private javax.swing.JButton jBtnDeleteTool;
@@ -948,6 +965,10 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
 
     private void deleteSelectedTool() {
         if ( c100p.deleteSelectedTool( jTreeC100 ) ) refreshTree(jTreeC100);
+    }
+
+    private void addStandardTools() {
+        c100p.addStandardTools();
     }
 
 

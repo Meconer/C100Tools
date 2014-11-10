@@ -25,7 +25,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
 
 /**
  *
@@ -191,6 +190,29 @@ public class C100Program {
         return false;
     }
 
+    void addStandardTools() {
+        ToolCollection standardToolsCollection = null;
+        
+        C100Preferences prefs = C100Preferences.getInstance();
+        String standardToolFileName = prefs.getStandardToolFileName();
+        
+        String standardToolsString ="";
+        
+        try {
+            standardToolsString = new String( Files.readAllBytes( Paths.get(standardToolFileName)), Charset.defaultCharset());
+        } catch (IOException ex) {
+            JOptionPane.showConfirmDialog(null, "Kan inte läsa filen med standardverktyg");
+        }
+        
+        standardToolsCollection = buildToolCollectionFromToolListProgram( standardToolsString );
+        addToolsToToolTree( standardToolsCollection );
+    }
+
+    private void addToolsToToolTree(ToolCollection standardToolsCollection) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+    }
+
     
     public class FormatException extends Exception {
         public FormatException( String message ){
@@ -198,11 +220,11 @@ public class C100Program {
         }
     }
     
-    private void buildUsedToolCollectionFromToolListProgram() {
+    private ToolCollection buildToolCollectionFromToolListProgram( String toolListString ) {
         // Create a new empty tool collection
-        usedTools = new ToolCollection();
+        ToolCollection toolCollection = new ToolCollection();
         
-        Scanner scanner = new Scanner(toolListProgram);
+        Scanner scanner = new Scanner(toolListString);
 
         int turretNo = 0;
         int stationNo;
@@ -260,7 +282,7 @@ public class C100Program {
                     // Station no
                     if ( s.matches( "^SN=\\d+" ) ) {
                         stationNo = Integer.parseInt( s.split( "=" )[1] );
-                        storeTool( tool, usedTools );
+                        storeTool( tool, toolCollection );
                         tool = new Tool(id, turretNo, placeNo, stationNo, 0 );
                         tool.setType(toolType);
                         toolIsStarted = true;
@@ -332,44 +354,10 @@ public class C100Program {
             }
         }
         // Store last tool if we found any.
-        if ( toolIsStarted ) storeTool(tool, usedTools);
+        if ( toolIsStarted ) storeTool(tool, toolCollection);
+        return toolCollection;
     }
 
-//    private Tool getToolFromPlacePart(String thisPlacePart, int turretNo, int placeNo ) {
-//        String toolId = getIdFromPlacePart( thisPlacePart );
-//        
-//        if ( ! toolId.equals("") ) {
-//            String regexSN = "(SN=\\d+)(.*?)(SN=)|(PL=)|(^ *$)";
-//            Pattern snPattern = Pattern.compile( regexSN, Pattern.DOTALL + Pattern.MULTILINE );
-//            Matcher m = snPattern.matcher(thisPlacePart);
-//            while ( m.find() ) {
-//                System.out.println("Regex match " + m.group() );
-//            }
-//            //return newTool;
-//        } 
-//        return null;
-//    }
-//
-//    private int getIntValueFromPlacePart( String placePart, String nameToLookFor ) {
-//        String regexp = nameToLookFor + "(\\d+)";
-//        Pattern p = Pattern.compile( regexp );
-//        Matcher m = p.matcher( placePart );
-//        if ( m.find() ) {
-//            String s = m.group(1);
-//            int num = Integer.parseInt(s);
-//            return num;
-//        }
-//        else return -Integer.MAX_VALUE;
-//    }
-//    
-//    
-//    private String getIdFromPlacePart( String placePart ) {
-//        String regexp = "ID=\"(.+)\"";
-//        Pattern p = Pattern.compile( regexp );
-//        Matcher m = p.matcher(placePart );
-//        if ( m.find() ) return m.group(1);
-//        else return "";
-//    }
     
     private void buildUsedToolCollectionFromMainProgram() throws NumberFormatException {
         
@@ -484,33 +472,6 @@ public class C100Program {
         this.jTAProgramArea = jTAProgramArea;
     }
 
-//    public void buildC100ToolTree(JScrollPane jSPC100TreePane) {
-//        
-//        DefaultMutableTreeNode root = new DefaultMutableTreeNode("C100");
-//      
-//        for ( int turretNo = 1 ; turretNo <= Tool.MAX_TURRET_NUMBER ; turretNo++ ) {
-//            DefaultMutableTreeNode turretTree = new DefaultMutableTreeNode("Revolver " + turretNo);
-//            root.add(turretTree);
-//            for ( int placeNo = 1 ; placeNo <= Tool.MAX_PLACE_NUMBER ; placeNo++ ) {
-//                ArrayList<Tool> toolListByPlace = usedTools.getToolsByPlace(turretNo, placeNo);
-//                if ( !toolListByPlace.isEmpty() ) {
-//                    DefaultMutableTreeNode placeNode = new DefaultMutableTreeNode("Plats " + placeNo );
-//                    turretTree.add(placeNode);
-//                    Iterator<Tool> toolIterator = toolListByPlace.iterator();
-//                    while (toolIterator.hasNext() ) {
-//                        DefaultMutableTreeNode tool = new DefaultMutableTreeNode( toolIterator.next() );
-//                        placeNode.add(tool);
-//                    }
-//                }
-//            }
-//        }
-//        JTree jTreeC100 = new JTree(root);
-//        jSPC100TreePane.setViewportView(jTreeC100);
-//        for (int i = 0; i < jTreeC100.getRowCount(); i++) {
-//            jTreeC100.expandRow(i);
-//        }
-//    }
-
     public void buildC100ToolTree(JScrollPane jSPC100TreePane, JTree jTreeC100 ) {
         
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) jTreeC100.getModel().getRoot();
@@ -535,7 +496,7 @@ public class C100Program {
     }
 
     void analyseToolListProgram() {
-        buildUsedToolCollectionFromToolListProgram();
+        usedTools = buildToolCollectionFromToolListProgram( toolListProgram );
     }
 
 }
