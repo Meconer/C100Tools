@@ -209,7 +209,18 @@ public class C100Program {
     }
 
     private void addToolsToToolTree(ToolCollection standardToolsCollection) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if ( standardToolsCollection == null ) return;
+        if ( usedTools == null ) return;
+        
+        Iterator<Tool> iterator = standardToolsCollection.collection.iterator();
+        while (iterator.hasNext() ) {
+            Tool tool = iterator.next();
+            Tool usedTool = usedTools.getToolByPlaceAndStation(tool.turretNo, tool.placeNo, tool.stationNo );
+            if ( usedTool == null ) {
+                // This tool does not exist so we have to add it.
+                usedTools.addTool(tool);
+            }
+        }
         
     }
 
@@ -473,7 +484,7 @@ public class C100Program {
     }
 
     public void buildC100ToolTree(JScrollPane jSPC100TreePane, JTree jTreeC100 ) {
-        
+        if ( usedTools == null ) return;
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) jTreeC100.getModel().getRoot();
         root.removeAllChildren();
       

@@ -969,6 +969,8 @@ public class C100ToolsMainWindow extends javax.swing.JFrame {
 
     private void addStandardTools() {
         c100p.addStandardTools();
+        c100p.buildC100ToolTree(jSPC100Tree, jTreeC100);
+        refreshTree(jTreeC100);
     }
 
 
