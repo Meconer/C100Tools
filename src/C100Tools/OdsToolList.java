@@ -132,13 +132,14 @@ public class OdsToolList {
             
             if ( posOfDot  < 0 ) ready = true;
             else {
-            
-                char chBefore = id.charAt(posOfDot - 1);
-                char chAfter = id.charAt(posOfDot + 1);
-                if ( Character.isDigit(chBefore) && Character.isDigit(chAfter)) {
-                    // Both are digits so it probably is a decimal point. Keep it.
-                } else {
-                    id = id.substring(0, posOfDot ) + " " + id.substring(posOfDot+1,id.length());
+                if (posOfDot < id.length()-1) {
+                    char chBefore = id.charAt(posOfDot - 1);
+                    char chAfter = id.charAt(posOfDot + 1);
+                    if ( Character.isDigit(chBefore) && Character.isDigit(chAfter)) {
+                        // Both are digits so it probably is a decimal point. Keep it.
+                    } else {
+                        id = id.substring(0, posOfDot ) + " " + id.substring(posOfDot+1,id.length());
+                    }
                 }
             }
         }
